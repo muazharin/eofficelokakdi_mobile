@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:eoffice/app/data/themes/colors.dart';
 import 'package:eoffice/app/data/themes/typography.dart';
-import 'package:eoffice/app/data/utils/validator.dart';
+import 'package:eoffice/app/data/utils/validators.dart';
 import 'package:eoffice/app/data/widgets/button_default.dart';
 import 'package:eoffice/app/data/widgets/input_password.dart';
 import 'package:eoffice/app/data/widgets/input_text.dart';
@@ -56,51 +56,59 @@ class LoginView extends GetView<LoginController> {
                             ),
                           ],
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Login",
-                              style: textSemiBold.copyWith(fontSize: 24),
-                            ),
-                            SizedBox(height: 24),
-                            Text("NIP", style: textRegular),
-                            SizedBox(height: 8),
-                            InputText(
-                              hintText: "Masukkan NIP",
-                              controller: controller.nip,
-                              onChanged: (v) {},
-                              validator: (v) => valNumber!(v!, "NIP"),
-                            ),
-                            SizedBox(height: 16),
-                            Text("Password", style: textRegular),
-                            SizedBox(height: 8),
-                            InputPassword(
-                              hintText: "Masukkan Password",
-                              controller: controller.password,
-                              onChanged: (v) {},
-                              validator: (v) => valPassword!(v!, "Password"),
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(),
-                                Text(
-                                  "Forgot Password?",
-                                  style: textSemiBold.copyWith(
-                                    color: AppColor.black300,
+                        child: Form(
+                          key: controller.keyForm,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Login",
+                                style: textSemiBold.copyWith(fontSize: 24),
+                              ),
+                              SizedBox(height: 24),
+                              Text("NIP", style: textRegular),
+                              SizedBox(height: 8),
+                              InputText(
+                                hintText: "Masukkan NIP",
+                                controller: controller.nip,
+                                onChanged: (v) {},
+                                validator: (v) => valNumber!(v!, "NIP"),
+                              ),
+                              SizedBox(height: 16),
+                              Text("Password", style: textRegular),
+                              SizedBox(height: 8),
+                              InputPassword(
+                                hintText: "Masukkan Password",
+                                controller: controller.password,
+                                onChanged: (v) {},
+                                validator: (v) => valPassword!(v!, "Password"),
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(),
+                                  Text(
+                                    "Forgot Password?",
+                                    style: textSemiBold.copyWith(
+                                      color: AppColor.black300,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 24),
-                            ButtonDefault(
-                              text: "Login",
-                              color: AppColor.blue500,
-                              onTap: () => controller.handleLogin(),
-                            ),
-                          ],
+                                ],
+                              ),
+                              SizedBox(height: 24),
+                              ButtonDefault(
+                                text: controller.isLoading
+                                    ? "Loading..."
+                                    : "Login",
+                                color: AppColor.blue500,
+                                onTap: controller.isLoading
+                                    ? () {}
+                                    : () => controller.handleLogin(),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

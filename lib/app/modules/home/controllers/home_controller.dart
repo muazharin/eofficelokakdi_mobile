@@ -2,35 +2,27 @@ import 'dart:ui';
 
 import 'package:eoffice/app/data/models/chart_data.dart';
 import 'package:eoffice/app/data/models/menu.dart';
-import 'package:eoffice/app/data/models/tags.dart';
+import 'package:eoffice/app/routes/app_pages.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeController extends GetxController {
-  var tag = TagsModel();
-  var tags = <TagsModel>[];
   var menus = <MenuModel>[];
   var dataChart = <ChartData>[];
   var tooltip = TooltipBehavior(enable: true);
+  var drawerController = AdvancedDrawerController();
 
   @override
   void onInit() {
-    tags = [
-      TagsModel(id: 1, name: "Assets", onTap: () {}),
-      TagsModel(id: 2, name: "Surat Masuk", onTap: () {}),
-      TagsModel(id: 3, name: "Surat Keluar", onTap: () {}),
-      TagsModel(id: 4, name: "SPT", onTap: () {}),
-      TagsModel(id: 5, name: "Agenda", onTap: () {}),
-    ];
-    tag = tags[0];
     menus = [
       MenuModel(
         id: 1,
-        name: "Assets",
+        name: "Asset",
         icon: "assets/png/cube.png",
         bgColor: Color(0xfffef5e8),
         txColor: Color(0xfffda027),
-        onTap: () {},
+        onTap: () => Get.rootDelegate.toNamed(Routes.ASSET),
       ),
       MenuModel(
         id: 2,
@@ -70,11 +62,6 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  void handleSelectTag(TagsModel? v) {
-    tag = v!;
-    update();
-  }
-
   void getChartData() {
     dataChart = [
       ChartData('Baik', 50, Color.fromRGBO(0, 131, 136, 1)),
@@ -82,5 +69,10 @@ class HomeController extends GetxController {
       ChartData('Rusak Berat', 8, Color.fromRGBO(228, 0, 124, 1)),
     ];
     update();
+  }
+
+  void handleDrawer() {
+    print("handleDrawer");
+    drawerController.showDrawer();
   }
 }
