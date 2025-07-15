@@ -8,6 +8,7 @@ abstract class Routes {
   static const ASSET = _Paths.ASSET;
   static const ASSET_DETAIL = _Paths.ASSET_DETAIL;
   static const ASSET_ADD = _Paths.ASSET_ADD;
+  static const SELECT_OPT = _Paths.SELECT_OPT;
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const ASSET = '/asset';
   static const ASSET_DETAIL = '/asset-detail';
   static const ASSET_ADD = '/asset-add';
+  static const SELECT_OPT = '/select-opt';
 }

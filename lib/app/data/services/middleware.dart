@@ -13,7 +13,7 @@ class AuthMiddleware extends GetMiddleware {
       return Get.rootDelegate.toNamed(Routes.LOGIN);
     } else {
       return JwtDecoder.isExpired(token)
-          ? Get.rootDelegate.toNamed(Routes.LOGIN)
+          ? Get.rootDelegate.offNamed(Routes.LOGIN)
           : super.redirectDelegate(route);
     }
   }

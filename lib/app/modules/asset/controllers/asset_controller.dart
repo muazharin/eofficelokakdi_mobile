@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:eoffice/app/data/models/asset.dart';
 import 'package:eoffice/app/data/services/api.dart';
 import 'package:eoffice/app/data/utils/variables.dart';
+import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,5 +61,11 @@ class AssetController extends GetxController {
         "nup": v.nup,
       },
     );
+  }
+
+  void handleAddButton() {
+    Get.rootDelegate.toNamed(Routes.ASSET_ADD).then((v) {
+      snackbarSuccess(message: "testing");
+    });
   }
 }

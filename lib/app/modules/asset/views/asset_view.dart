@@ -83,6 +83,12 @@ class AssetView extends GetView<AssetController> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+        onPressed: () => controller.handleAddButton(),
+        child: Icon(Icons.add_rounded),
+      ),
     );
   }
 }

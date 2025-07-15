@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void snackbarSuccess({
-  String? message,
+  required String? message,
   SnackPosition? snackPosition = SnackPosition.TOP,
 }) {
   Get.rawSnackbar(
@@ -29,12 +29,12 @@ void snackbarSuccess({
 }
 
 void snackbarWarning({
-  String? message,
+  required String? message,
   SnackPosition? snackPosition = SnackPosition.TOP,
 }) {
   Get.rawSnackbar(
     duration: const Duration(seconds: 1),
-    backgroundColor: AppColor.yellow700,
+    backgroundColor: AppColor.yellow500,
     borderRadius: 12,
     shouldIconPulse: false,
     snackPosition: snackPosition!,
@@ -64,7 +64,7 @@ void snackbarWarning({
 //   );
 // }
 void snackbarDanger({
-  String? message,
+  required String? message,
   SnackPosition? snackPosition = SnackPosition.TOP,
 }) {
   Get.rawSnackbar(
