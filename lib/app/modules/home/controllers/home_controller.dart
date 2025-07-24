@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:eoffice/app/data/models/chart_data.dart';
 import 'package:eoffice/app/data/models/menu.dart';
+import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,7 @@ class HomeController extends GetxController {
         icon: "assets/png/cube.png",
         bgColor: Color(0xfffef5e8),
         txColor: Color(0xfffda027),
-        onTap: () => Get.rootDelegate.toNamed(Routes.ASSET),
+        onTap: () => Get.toNamed(Routes.ASSET),
       ),
       MenuModel(
         id: 2,
@@ -30,7 +31,7 @@ class HomeController extends GetxController {
         icon: "assets/png/envelope-download.png",
         bgColor: Color(0xffe9f6fe),
         txColor: Color(0xff1d9fff),
-        onTap: () {},
+        onTap: () => snackbarWarning(message: "Sedang proses development"),
       ),
       MenuModel(
         id: 3,
@@ -38,7 +39,7 @@ class HomeController extends GetxController {
         icon: "assets/png/envelope-upload.png",
         bgColor: Color(0xfff1fadd),
         txColor: Color(0xffa5df29),
-        onTap: () {},
+        onTap: () => snackbarWarning(message: "Sedang proses development"),
       ),
       MenuModel(
         id: 4,
@@ -46,7 +47,7 @@ class HomeController extends GetxController {
         icon: "assets/png/document-signed.png",
         bgColor: Color(0xfffdeef5),
         txColor: Color(0xfffb2e95),
-        onTap: () {},
+        onTap: () => snackbarWarning(message: "Sedang proses development"),
       ),
       MenuModel(
         id: 5,
@@ -54,7 +55,7 @@ class HomeController extends GetxController {
         icon: "assets/png/calendar.png",
         bgColor: Color(0xfffdedf0),
         txColor: Color(0xfffd3661),
-        onTap: () {},
+        onTap: () => snackbarWarning(message: "Sedang proses development"),
       ),
     ];
     update();
@@ -74,5 +75,9 @@ class HomeController extends GetxController {
   void handleDrawer() {
     print("handleDrawer");
     drawerController.showDrawer();
+  }
+
+  void handleScanner() {
+    Get.toNamed(Routes.SCANNER);
   }
 }

@@ -34,7 +34,13 @@ class LoginView extends GetView<LoginController> {
                   padding: const EdgeInsets.all(16),
                   child: Row(
                     children: [
-                      SvgPicture.asset("assets/svg/komdigi.svg", height: 40),
+                      Hero(
+                        tag: "komdigi",
+                        child: SvgPicture.asset(
+                          "assets/svg/komdigi.svg",
+                          height: 40,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -100,7 +106,7 @@ class LoginView extends GetView<LoginController> {
                               SizedBox(height: 24),
                               ButtonDefault(
                                 text: controller.isLoading
-                                    ? "Loading..."
+                                    ? "Menunggu..."
                                     : "Login",
                                 color: AppColor.blue500,
                                 onTap: controller.isLoading

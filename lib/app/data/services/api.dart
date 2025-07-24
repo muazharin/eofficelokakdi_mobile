@@ -30,7 +30,6 @@ String error(DioException v) {
       } else {
         return "${v.message}";
       }
-    case DioExceptionType.unknown:
     case DioExceptionType.connectionError:
       return AppVariable.noInternet;
     default:
@@ -50,6 +49,7 @@ class Api {
   }
 
   Future<Response> postWithToken({String? path, Object? data}) async {
+    print(dio.options.baseUrl);
     var token = await box.getData("token");
     try {
       final response = await dio.post(

@@ -9,15 +9,15 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
   runApp(
-    GetMaterialApp.router(
+    GetMaterialApp(
       title: "Application",
-      // initialRoute: AppPages.INITIAL,
+      initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
-      routeInformationParser: GetInformationParser(
-        initialRoute: AppPages.INITIAL,
-      ), // add this line
-      routerDelegate: GetDelegate(), // add this line
+      // routeInformationParser: GetInformationParser(
+      //   initialRoute: AppPages.INITIAL,
+      // ), // add this line
+      // routerDelegate: GetDelegate(), // add this line
     ),
   );
 }

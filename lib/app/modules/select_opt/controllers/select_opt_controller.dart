@@ -5,7 +5,7 @@ import 'package:eoffice/app/data/services/api.dart';
 import 'package:get/get.dart';
 
 class SelectOptController extends GetxController {
-  var arg = Get.rootDelegate.arguments();
+  var arg = Get.arguments;
   var title = '';
   var isLoading = true;
   var isError = false;

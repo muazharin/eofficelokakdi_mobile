@@ -14,6 +14,16 @@ String? Function(String? v, String n)? valNumber = (v, n) {
   }
   return null;
 };
+String? Function(String? v, String n)? valCurrency = (v, n) {
+  String patttern = r'^\d*\.?\d*$';
+  RegExp regExp = RegExp(patttern);
+  if (v!.isEmpty) {
+    return "$n harus diisi";
+  } else if (!regExp.hasMatch(v)) {
+    return "$n harus berisi angka";
+  }
+  return null;
+};
 String? Function(String? v, String n)? valEmail = (v, n) {
   String pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';

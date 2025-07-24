@@ -10,10 +10,10 @@ class AuthMiddleware extends GetMiddleware {
   Future<GetNavConfig?> redirectDelegate(GetNavConfig route) async {
     var token = await box.getData('token');
     if (token == null || token.isEmpty) {
-      return Get.rootDelegate.toNamed(Routes.LOGIN);
+      return Get.toNamed(Routes.LOGIN);
     } else {
       return JwtDecoder.isExpired(token)
-          ? Get.rootDelegate.offNamed(Routes.LOGIN)
+          ? Get.offNamed(Routes.LOGIN)
           : super.redirectDelegate(route);
     }
   }

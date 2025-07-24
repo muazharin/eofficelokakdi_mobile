@@ -15,12 +15,6 @@ class LoginController extends GetxController {
   var isLoading = false;
   var keyForm = GlobalKey<FormState>();
 
-  @override
-  void onInit() {
-    print("Login");
-    super.onInit();
-  }
-
   void handleLogin() async {
     if (keyForm.currentState!.validate()) {
       isLoading = true;
@@ -33,16 +27,14 @@ class LoginController extends GetxController {
             "user_password": password.text,
           },
         );
-        print(response);
         var result = jsonDecode(response.toString());
         if (result['status']) {
           box.saveData("token", result['token']);
-          Get.rootDelegate.offNamed(Routes.HOME);
+          Get.offNamed(Routes.HOME);
         } else {
           snackbarDanger(message: "Terjadi Kesalahans");
         }
       } catch (e) {
-        print(e);
         snackbarDanger(message: e.toString());
       } finally {
         isLoading = false;
