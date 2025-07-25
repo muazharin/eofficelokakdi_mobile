@@ -76,8 +76,4 @@ class HomeController extends GetxController {
     print("handleDrawer");
     drawerController.showDrawer();
   }
-
-  void handleScanner() {
-    Get.toNamed(Routes.SCANNER);
-  }
 }

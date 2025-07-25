@@ -8,6 +8,8 @@ import '../modules/asset_detail/bindings/asset_detail_binding.dart';
 import '../modules/asset_detail/views/asset_detail_view.dart';
 import '../modules/asset_filter/bindings/asset_filter_binding.dart';
 import '../modules/asset_filter/views/asset_filter_view.dart';
+import '../modules/download_file/bindings/download_file_binding.dart';
+import '../modules/download_file/views/download_file_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -75,6 +77,11 @@ class AppPages {
       name: _Paths.SCANNER,
       page: () => const ScannerView(),
       binding: ScannerBinding(),
+    ),
+    GetPage(
+      name: _Paths.DOWNLOAD_FILE,
+      page: () => const DownloadFileView(),
+      binding: DownloadFileBinding(),
     ),
   ];
 }

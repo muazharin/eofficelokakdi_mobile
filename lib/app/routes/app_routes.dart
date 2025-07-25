@@ -12,6 +12,7 @@ abstract class Routes {
   static const ASSET_FILTER = _Paths.ASSET_FILTER;
   static const SPLASH = _Paths.SPLASH;
   static const SCANNER = _Paths.SCANNER;
+  static const DOWNLOAD_FILE = _Paths.DOWNLOAD_FILE;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const ASSET_FILTER = '/asset-filter';
   static const SPLASH = '/splash';
   static const SCANNER = '/scanner';
+  static const DOWNLOAD_FILE = '/download-file';
 }

@@ -2,6 +2,7 @@ import 'package:eoffice/app/data/themes/colors.dart';
 import 'package:eoffice/app/data/themes/typography.dart';
 import 'package:eoffice/app/data/widgets/input_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'package:get/get.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -129,11 +130,50 @@ class AssetView extends GetView<AssetController> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-        onPressed: () => controller.handleAddButton(),
-        child: Icon(Icons.add_rounded),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.white,
+      //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+      //   onPressed: () => controller.handleAddButton(),
+      //   child: Icon(Icons.add_rounded),
+      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: GetBuilder<AssetController>(
+        builder: (context) {
+          return SpeedDial(
+            backgroundColor: Colors.white,
+            icon: Icons.menu_rounded,
+            activeIcon: Icons.close,
+            spacing: 3,
+            spaceBetweenChildren: 4,
+            openCloseDial: controller.isDialOpen,
+            childPadding: const EdgeInsets.all(5),
+            childrenButtonSize: Size.fromRadius(32),
+            animationCurve: Curves.elasticInOut,
+            children: [
+              SpeedDialChild(
+                child: Icon(Icons.add_rounded),
+                onTap: () => controller.handleAddButton(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+              ),
+              SpeedDialChild(
+                child: Icon(Icons.qr_code_scanner_rounded),
+                onTap: () => controller.handleScanner(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+              ),
+              SpeedDialChild(
+                child: Icon(Icons.file_download_outlined),
+                onTap: () => controller.handleDownloadFile(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

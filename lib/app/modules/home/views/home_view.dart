@@ -58,21 +58,7 @@ class HomeView extends GetView<HomeController> {
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32),
-          ),
-          onPressed: () => controller.handleScanner(),
-          child: Icon(Icons.qr_code_scanner_rounded),
-        ),
-        // bottomNavigationBar: BottomAppBar(
-        //   height: 48,
-        //   color: Colors.white,
-        //   shape: const CircularNotchedRectangle(),
-        //   notchMargin: 12,
-        // ),
+
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

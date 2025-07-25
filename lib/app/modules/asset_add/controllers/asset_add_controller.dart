@@ -335,7 +335,6 @@ class AssetAddController extends GetxController {
             snackbarDanger(message: "Terjadi Kesalahan!");
           }
         } catch (e) {
-          print(e);
           snackbarDanger(message: "Terjadi Kesalahans");
         } finally {
           isLoading = false;

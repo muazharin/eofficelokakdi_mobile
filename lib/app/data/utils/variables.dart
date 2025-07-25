@@ -3,6 +3,7 @@ class AppVariable {
   static String signin = "/api/v1/auth/signin";
   static String asset = "/api/v1/asset";
   static String assetByParams = "/api/v1/asset/by_params";
+  static String assetDownload = "/api/v1/asset/export_excel";
   static String bmn = "/api/v1/asset/bmns";
   static String stuff = "/api/v1/asset/stuffs";
   static String condition = "/api/v1/asset/conditions";

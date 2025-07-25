@@ -11,8 +11,8 @@ final dio = Dio(
   BaseOptions(
     baseUrl: dotenv.env['API_BASE_URL'] ?? '',
     headers: {'X-API-KEY': dotenv.env['X_API_KEY']},
-    connectTimeout: const Duration(seconds: 10),
-    receiveTimeout: const Duration(seconds: 10),
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 30),
   ),
 );
 

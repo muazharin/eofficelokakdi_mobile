@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:eoffice/app/data/models/asset.dart';
 import 'package:eoffice/app/data/models/select_opt.dart';
 import 'package:eoffice/app/data/services/api.dart';
 import 'package:eoffice/app/data/utils/variables.dart';
+import 'package:eoffice/app/data/widgets/loading_custom.dart';
+import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +24,7 @@ class AssetController extends GetxController {
   var selectedBmn = SelectOptModel();
   var selectedStuff = SelectOptModel();
   final debouncer = Debouncer(delay: const Duration(milliseconds: 500));
+  var isDialOpen = ValueNotifier(false);
 
   @override
   void onInit() {
@@ -101,7 +105,9 @@ class AssetController extends GetxController {
   }
 
   void handleAddButton() {
-    Get.toNamed(Routes.ASSET_ADD);
+    isDialOpen.value = !isDialOpen.value;
+    update();
+    Timer(Duration(milliseconds: 500), () => Get.toNamed(Routes.ASSET_ADD));
   }
 
   void handleFilterBtn() {
@@ -132,5 +138,38 @@ class AssetController extends GetxController {
     }
     isVisibleBadge = sumVisibleBadge > 0;
     update();
+  }
+
+  void handleScanner() {
+    isDialOpen.value = !isDialOpen.value;
+    update();
+    Timer(Duration(milliseconds: 500), () => Get.toNamed(Routes.SCANNER));
+  }
+
+  void handleDownloadFile() async {
+    isDialOpen.value = !isDialOpen.value;
+    update();
+    // Timer(Duration(milliseconds: 500), () => Get.toNamed(Routes.DOWNLOAD_FILE));
+    loadingPage(message: "Sedang menyiapkan file...");
+    try {
+      final response = await Api().getWithToken(
+        path: AppVariable.assetDownload,
+      );
+
+      var result = jsonDecode(response.toString());
+      if (result['status']) {
+        Get.back();
+        Get.toNamed(
+          Routes.DOWNLOAD_FILE,
+          arguments: {"file_path": result['data']['file_path']},
+        );
+      } else {
+        Get.back();
+        snackbarDanger(message: "Gagal menyiapkan file download");
+      }
+    } catch (_) {
+      Get.back();
+      snackbarDanger(message: "Gagal menyiapkan file download");
+    }
   }
 }
