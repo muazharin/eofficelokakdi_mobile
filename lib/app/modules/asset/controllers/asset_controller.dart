@@ -4,17 +4,24 @@ import 'dart:convert';
 import 'package:eoffice/app/data/models/asset.dart';
 import 'package:eoffice/app/data/models/select_opt.dart';
 import 'package:eoffice/app/data/services/api.dart';
+import 'package:eoffice/app/data/services/secure_storage.dart';
 import 'package:eoffice/app/data/utils/variables.dart';
 import 'package:eoffice/app/data/widgets/loading_custom.dart';
+import 'package:eoffice/app/data/widgets/pop_up_option.dart';
 import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
-class AssetController extends GetxController {
+class AssetController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  var box = SecureStorageService();
   var isLoading = true;
   var isError = false;
+  var isAdmin = false;
   var error = '';
   var isVisibleBadge = false;
   var sumVisibleBadge = 0;
@@ -25,11 +32,19 @@ class AssetController extends GetxController {
   var selectedStuff = SelectOptModel();
   final debouncer = Debouncer(delay: const Duration(milliseconds: 500));
   var isDialOpen = ValueNotifier(false);
+  late final slideController = SlidableController(this);
 
   @override
   void onInit() {
     getAllData();
+    checkIsAdmin();
     super.onInit();
+  }
+
+  void checkIsAdmin() async {
+    var role = JwtDecoder.decode((await box.getData('token'))!)['user_role'];
+    isAdmin = role == "1";
+    update();
   }
 
   void handleSearch(String v) {
@@ -56,11 +71,11 @@ class AssetController extends GetxController {
         },
       );
       var result = jsonDecode(response.toString());
-      print(result);
       if (result['status']) {
         data = result['data']
             .map<AssetModel>((v) => AssetModel.fromJson(v))
             .toList();
+        doShowDelOption();
       } else {
         data = [];
       }
@@ -71,6 +86,19 @@ class AssetController extends GetxController {
       error = e.toString();
       isLoading = false;
       update();
+    }
+  }
+
+  void doShowDelOption() async {
+    var isShowOption = await box.getData('show_option_keys');
+    if (isShowOption == null || isShowOption.isEmpty) {
+      await box.saveData('show_option_keys', 'done');
+      Timer(const Duration(milliseconds: 100), () {
+        slideController.openEndActionPane();
+      });
+      Timer(const Duration(milliseconds: 1200), () {
+        slideController.close();
+      });
     }
   }
 
@@ -170,6 +198,39 @@ class AssetController extends GetxController {
     } catch (_) {
       Get.back();
       snackbarDanger(message: "Gagal menyiapkan file download");
+    }
+  }
+
+  void handleDeleteBtn(int? id) {
+    Get.dialog(
+      PopUpOption(
+        title: "Hapus User",
+        detail: "Anda yakin menghapus data ini?",
+        onTap: () => doDelete(id),
+      ),
+    );
+  }
+
+  void doDelete(int? id) async {
+    Get.back();
+    loadingPage(message: "Menunggu...");
+    try {
+      final response = await Api().deleteWithToken(
+        path: "${AppVariable.asset}/$id",
+      );
+      var result = jsonDecode(response.toString());
+      if (result['status'] == 200) {
+        Get.back();
+        snackbarSuccess(message: "Berhasil menghapus");
+      } else {
+        Get.back();
+        snackbarDanger(message: result['message']);
+      }
+    } catch (e) {
+      Get.back();
+      snackbarDanger(message: e.toString());
+    } finally {
+      getAllData();
     }
   }
 }

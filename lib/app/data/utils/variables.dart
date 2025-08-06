@@ -1,7 +1,11 @@
 class AppVariable {
   AppVariable._();
   static String signin = "/api/v1/auth/signin";
+  static String user = "/api/v1/user";
+  static String userPhoto = "/api/v1/user/update_photo";
+  static String userPassword = "/api/v1/user/update_password";
   static String asset = "/api/v1/asset";
+  static String assetChart = "/api/v1/asset/charts";
   static String assetByParams = "/api/v1/asset/by_params";
   static String assetDownload = "/api/v1/asset/export_excel";
   static String bmn = "/api/v1/asset/bmns";

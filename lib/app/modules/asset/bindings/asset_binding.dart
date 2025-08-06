@@ -7,6 +7,6 @@ class AssetBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut<AssetController>(() => AssetController());
-    Get.put(SplashController());
+    Get.lazyPut<SplashController>(() => SplashController());
   }
 }

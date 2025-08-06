@@ -1,18 +1,47 @@
+import 'dart:convert';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:eoffice/app/data/models/chart_data.dart';
 import 'package:eoffice/app/data/models/menu.dart';
+import 'package:eoffice/app/data/services/api.dart';
+import 'package:eoffice/app/data/services/secure_storage.dart';
+import 'package:eoffice/app/data/utils/variables.dart';
+import 'package:eoffice/app/data/widgets/pop_up_option.dart';
 import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeController extends GetxController {
+  var box = SecureStorageService();
   var menus = <MenuModel>[];
-  var dataChart = <ChartData>[];
+  var dataChart = <ChartDataModel>[];
   var tooltip = TooltipBehavior(enable: true);
+  var userData = <String, dynamic>{};
   var drawerController = AdvancedDrawerController();
+  Color getSolidRandomColor() {
+    final Random random = Random();
+    return Color.fromARGB(
+      255,
+      random.nextInt(156) + 100, // red (100-255)
+      random.nextInt(156) + 100, // green (100-255)
+      random.nextInt(156) + 100, // blue (100-255)
+    );
+  }
+
+  List<ChartDataModel> assignRandomColors(List<ChartDataModel> data) {
+    return data.asMap().entries.map((item) {
+      return ChartDataModel(
+        chartId: item.key + 1,
+        chartName: item.value.chartName,
+        chartTotal: item.value.chartTotal,
+        color: getSolidRandomColor(),
+      );
+    }).toList();
+  }
 
   @override
   void onInit() {
@@ -59,21 +88,66 @@ class HomeController extends GetxController {
       ),
     ];
     update();
+    getDataUser();
     getChartData();
     super.onInit();
   }
 
-  void getChartData() {
-    dataChart = [
-      ChartData('Baik', 50, Color.fromRGBO(0, 131, 136, 1)),
-      ChartData('Rusak Ringan', 15, Color.fromRGBO(255, 189, 57, 1)),
-      ChartData('Rusak Berat', 8, Color.fromRGBO(228, 0, 124, 1)),
-    ];
+  void getDataUser() async {
+    userData = JwtDecoder.decode((await box.getData("token"))!);
     update();
   }
 
+  void getChartData() async {
+    try {
+      final response = await Api().getWithToken(path: AppVariable.assetChart);
+      var result = jsonDecode(response.toString());
+      if (result['status']) {
+        var list = (result['data'] as List)
+            .map((v) => ChartDataModel.fromJson(v))
+            .toList();
+        dataChart = assignRandomColors(list);
+      } else {
+        dataChart = [];
+      }
+    } catch (e) {
+      dataChart = [];
+    } finally {
+      update();
+    }
+  }
+
   void handleDrawer() {
-    print("handleDrawer");
     drawerController.showDrawer();
+  }
+
+  void handleLogout() {
+    drawerController.hideDrawer();
+    Get.dialog(
+      PopUpOption(
+        title: "Keluar",
+        detail: "Anda yakin ingin keluar?",
+        onTap: () => doLogout(),
+      ),
+    );
+  }
+
+  void handleProfileBtn() {
+    drawerController.hideDrawer();
+    Get.toNamed(Routes.PROFILE)!.then((_) => getDataUser());
+  }
+
+  void handleAboutBtn() {
+    drawerController.hideDrawer();
+    Get.toNamed(Routes.ABOUT);
+  }
+
+  void handleShowPhoto(List<String> img) {
+    Get.toNamed(Routes.PHOTO, arguments: {"images": img});
+  }
+
+  void doLogout() {
+    box.clear();
+    Get.offAllNamed(Routes.LOGIN);
   }
 }

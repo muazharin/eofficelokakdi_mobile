@@ -2,6 +2,7 @@ import 'package:eoffice/app/data/themes/colors.dart';
 import 'package:eoffice/app/data/themes/typography.dart';
 import 'package:eoffice/app/data/widgets/input_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'package:get/get.dart';
@@ -90,33 +91,47 @@ class AssetView extends GetView<AssetController> {
                     child: ListView(
                       children: [
                         const SizedBox(height: 16),
-                        ...controller.data.map((v) {
-                          return GestureDetector(
-                            onTap: () => controller.handleDetailPage(v),
+                        ...controller.data.asMap().entries.map((v) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
                             child: Container(
-                              margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: Offset(0, 0),
-                                    blurRadius: 1,
-                                    spreadRadius: .1,
-                                    color: AppColor.black200,
+                              margin: const EdgeInsets.fromLTRB(8, 0, 8, 16),
+                              child: GestureDetector(
+                                onTap: () =>
+                                    controller.handleDetailPage(v.value),
+                                child: Slidable(
+                                  controller: v.key == 0
+                                      ? controller.slideController
+                                      : null,
+                                  endActionPane: ActionPane(
+                                    motion: ScrollMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (x) => controller
+                                            .handleDeleteBtn(v.value.assetId),
+                                        backgroundColor: AppColor.error600,
+                                        foregroundColor: Colors.white,
+                                        icon: Icons.delete_outline_rounded,
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                              child: ListTile(
-                                title: Text(v.merk!, style: textSemiBold),
-                                subtitle: Text(
-                                  v.stuff!.stuffName!,
-                                  style: textSemiBold.copyWith(
-                                    fontSize: 12,
-                                    color: AppColor.black200,
+                                  child: ListTile(
+                                    title: Text(
+                                      v.value.merk!,
+                                      style: textSemiBold,
+                                    ),
+                                    subtitle: Text(
+                                      v.value.stuff!.stuffName!,
+                                      style: textSemiBold.copyWith(
+                                        fontSize: 12,
+                                        color: AppColor.black200,
+                                      ),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                    ),
                                   ),
                                 ),
-                                trailing: Icon(Icons.arrow_forward_ios_rounded),
                               ),
                             ),
                           );
@@ -130,15 +145,19 @@ class AssetView extends GetView<AssetController> {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.white,
-      //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
-      //   onPressed: () => controller.handleAddButton(),
-      //   child: Icon(Icons.add_rounded),
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: GetBuilder<AssetController>(
         builder: (context) {
+          if (!controller.isAdmin) {
+            return FloatingActionButton(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(100),
+              ),
+              onPressed: () => controller.handleScanner(),
+              child: Icon(Icons.qr_code_scanner_rounded),
+            );
+          }
           return SpeedDial(
             backgroundColor: Colors.white,
             icon: Icons.menu_rounded,

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/about/bindings/about_binding.dart';
+import '../modules/about/views/about_view.dart';
 import '../modules/asset/bindings/asset_binding.dart';
 import '../modules/asset/views/asset_view.dart';
 import '../modules/asset_add/bindings/asset_add_binding.dart';
@@ -14,6 +16,14 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/outbox/bindings/outbox_binding.dart';
+import '../modules/outbox/views/outbox_view.dart';
+import '../modules/photo/bindings/photo_binding.dart';
+import '../modules/photo/views/photo_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
+import '../modules/profile_edit/bindings/profile_edit_binding.dart';
+import '../modules/profile_edit/views/profile_edit_view.dart';
 import '../modules/scanner/bindings/scanner_binding.dart';
 import '../modules/scanner/views/scanner_view.dart';
 import '../modules/select_opt/bindings/select_opt_binding.dart';
@@ -82,6 +92,31 @@ class AppPages {
       name: _Paths.DOWNLOAD_FILE,
       page: () => const DownloadFileView(),
       binding: DownloadFileBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => const AboutView(),
+      binding: AboutBinding(),
+    ),
+    GetPage(
+      name: _Paths.OUTBOX,
+      page: () => const OutboxView(),
+      binding: OutboxBinding(),
+    ),
+    GetPage(
+      name: _Paths.PHOTO,
+      page: () => const PhotoView(),
+      binding: PhotoBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_EDIT,
+      page: () => const ProfileEditView(),
+      binding: ProfileEditBinding(),
     ),
   ];
 }

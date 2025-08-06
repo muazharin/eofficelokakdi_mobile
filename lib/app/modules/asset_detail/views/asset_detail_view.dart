@@ -25,12 +25,19 @@ class AssetDetailView extends GetView<AssetDetailController> {
           child: Icon(Icons.arrow_back_ios_new_rounded),
         ),
         actions: [
-          InkWell(
-            onTap: () => controller.handleEdit(),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Icon(Icons.edit_note_rounded),
-            ),
+          GetBuilder<AssetDetailController>(
+            builder: (context) {
+              if (!controller.isAdmin) {
+                return SizedBox();
+              }
+              return InkWell(
+                onTap: () => controller.handleEdit(),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Icon(Icons.edit_note_rounded),
+                ),
+              );
+            },
           ),
         ],
       ),

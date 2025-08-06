@@ -104,14 +104,18 @@ class LoginView extends GetView<LoginController> {
                                 ],
                               ),
                               SizedBox(height: 24),
-                              ButtonDefault(
-                                text: controller.isLoading
-                                    ? "Menunggu..."
-                                    : "Login",
-                                color: AppColor.blue500,
-                                onTap: controller.isLoading
-                                    ? () {}
-                                    : () => controller.handleLogin(),
+                              GetBuilder<LoginController>(
+                                builder: (context) {
+                                  return ButtonDefault(
+                                    text: controller.isLoading
+                                        ? "Menunggu..."
+                                        : "Login",
+                                    color: AppColor.blue500,
+                                    onTap: controller.isLoading
+                                        ? () {}
+                                        : () => controller.handleLogin(),
+                                  );
+                                },
                               ),
                             ],
                           ),

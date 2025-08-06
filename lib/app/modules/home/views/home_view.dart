@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eoffice/app/data/models/chart_data.dart';
 import 'package:eoffice/app/data/themes/colors.dart';
 import 'package:eoffice/app/data/themes/typography.dart';
@@ -47,18 +48,28 @@ class HomeView extends GetView<HomeController> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              // ListTile(
-              //   onTap: () {},
-              //   leading: Icon(Icons.home),
-              //   title: Text('Home'),
-              // ),
+              ListTile(
+                onTap: () => controller.handleProfileBtn(),
+                leading: Icon(Icons.person_outline_rounded),
+                title: Text('Profile'),
+              ),
+              ListTile(
+                onTap: () => controller.handleAboutBtn(),
+                leading: Icon(Icons.info_outline_rounded),
+                title: Text('Tentang'),
+              ),
+              Divider(color: Colors.white),
+              ListTile(
+                onTap: () => controller.handleLogout(),
+                leading: Icon(Icons.logout_rounded),
+                title: Text('Keluar'),
+              ),
             ],
           ),
         ),
       ),
       child: Scaffold(
         backgroundColor: Colors.white,
-
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,53 +141,118 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(
-                                    108,
-                                    0,
-                                    16,
-                                    16,
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Muazharin Alfan",
-                                        style: textSemiBold.copyWith(
-                                          fontSize: 16,
-                                        ),
+                                GetBuilder<HomeController>(
+                                  builder: (context) {
+                                    return Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        108,
+                                        0,
+                                        16,
+                                        16,
                                       ),
-                                      Text(
-                                        "199611072025041004",
-                                        style: textRegular.copyWith(
-                                          color: AppColor.black500,
-                                          fontSize: 12,
-                                        ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${controller.userData['user_name']}",
+                                            style: textSemiBold.copyWith(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          Text(
+                                            controller.userData['user_nip'] ??
+                                                controller
+                                                    .userData['user_email'] ??
+                                                "",
+                                            style: textRegular.copyWith(
+                                              color: AppColor.black500,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
                             Positioned(
                               top: 108,
                               left: 16,
-                              child: Container(
-                                padding: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(40),
-                                  child: Image.asset(
-                                    "assets/jpg/alfan.jpg",
+                              child: GetBuilder<HomeController>(
+                                builder: (context) {
+                                  return SizedBox(
                                     height: 80,
                                     width: 80,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                    child: Stack(
+                                      children: [
+                                        controller.userData['user_photo']
+                                                .toString()
+                                                .isNotEmpty
+                                            ? GestureDetector(
+                                                onTap: () =>
+                                                    controller.handleShowPhoto([
+                                                      "${controller.userData['user_photo']}",
+                                                    ]),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        100,
+                                                      ),
+                                                  child: CachedNetworkImage(
+                                                    height: 160,
+                                                    width: 160,
+                                                    fit: BoxFit.cover,
+                                                    imageUrl:
+                                                        "${controller.userData['user_photo']}",
+                                                    placeholder: (context, url) =>
+                                                        CircularProgressIndicator(),
+                                                    errorWidget:
+                                                        (
+                                                          context,
+                                                          url,
+                                                          error,
+                                                        ) => Container(
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                              color: AppColor
+                                                                  .black200,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  100,
+                                                                ),
+                                                          ),
+                                                          child: Icon(
+                                                            Icons.error,
+                                                          ),
+                                                        ),
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(
+                                                padding: const EdgeInsets.all(
+                                                  2,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                  child: Image.asset(
+                                                    "assets/png/user.png",
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                      ],
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ],
@@ -259,7 +335,7 @@ class HomeView extends GetView<HomeController> {
                     Padding(
                       padding: const EdgeInsets.all(16),
                       child: Container(
-                        height: 200,
+                        // height: 200,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
@@ -274,145 +350,52 @@ class HomeView extends GetView<HomeController> {
                         ),
                         child: GetBuilder<HomeController>(
                           builder: (context) {
-                            return Row(
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  child: SfCircularChart(
-                                    title: ChartTitle(
-                                      text: "Rata-Rata Kondisi Asset",
-                                      textStyle: textSemiBold.copyWith(
-                                        fontSize: 12,
-                                      ),
+                                SfCartesianChart(
+                                  title: ChartTitle(
+                                    text: "Data Tahun Perolehan Barang",
+                                    textStyle: textSemiBold.copyWith(
+                                      fontSize: 12,
                                     ),
-                                    margin: const EdgeInsets.fromLTRB(
-                                      0,
-                                      8,
-                                      0,
-                                      0,
-                                    ),
-                                    tooltipBehavior: controller.tooltip,
-                                    series: <CircularSeries>[
-                                      // Renders doughnut chart
-                                      DoughnutSeries<ChartData, String>(
-                                        dataSource: controller.dataChart,
-                                        pointColorMapper: (ChartData data, _) =>
-                                            data.color,
-                                        xValueMapper: (ChartData data, _) =>
-                                            data.x,
-                                        yValueMapper: (ChartData data, _) =>
-                                            data.y,
-                                      ),
-                                    ],
                                   ),
+                                  primaryXAxis: CategoryAxis(),
+                                  primaryYAxis: NumericAxis(
+                                    minimum: 0,
+                                    maximum: 120,
+                                    interval: 10,
+                                  ),
+                                  tooltipBehavior: TooltipBehavior(
+                                    enable: true,
+                                  ),
+                                  series:
+                                      <CartesianSeries<ChartDataModel, String>>[
+                                        ColumnSeries<ChartDataModel, String>(
+                                          dataSource: controller.dataChart,
+                                          pointColorMapper:
+                                              (ChartDataModel data, _) =>
+                                                  data.color,
+                                          xValueMapper:
+                                              (ChartDataModel data, _) =>
+                                                  data.chartName,
+                                          yValueMapper:
+                                              (ChartDataModel data, _) =>
+                                                  data.chartTotal,
+                                          // dataLabelSettings: DataLabelSettings(
+                                          //   isVisible: true,
+                                          //   textStyle: textRegular,
+                                          // ),
+                                        ),
+                                      ],
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 12,
-                                          width: 12,
-                                          margin: const EdgeInsets.only(
-                                            right: 2,
-                                          ),
-                                          color: Color.fromRGBO(0, 131, 136, 1),
-                                        ),
-                                        Text(
-                                          "Baik",
-                                          style: textRegular.copyWith(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 12,
-                                          width: 12,
-                                          margin: const EdgeInsets.only(
-                                            right: 2,
-                                          ),
-                                          color: Color.fromRGBO(
-                                            255,
-                                            189,
-                                            57,
-                                            1,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Rusak Ringan",
-                                          style: textRegular.copyWith(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 12,
-                                          width: 12,
-                                          margin: const EdgeInsets.only(
-                                            right: 2,
-                                          ),
-                                          color: Color.fromRGBO(228, 0, 124, 1),
-                                        ),
-                                        Text(
-                                          "Rusak Berat",
-                                          style: textRegular.copyWith(
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(width: 16),
                               ],
                             );
                           },
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(16),
-                    //   child: Container(
-                    //     decoration: BoxDecoration(
-                    //       color: Colors.white,
-                    //       borderRadius: BorderRadius.circular(16),
-                    //       boxShadow: [
-                    //         BoxShadow(
-                    //           offset: Offset(0, 0),
-                    //           blurRadius: 1,
-                    //           spreadRadius: .1,
-                    //           color: AppColor.black200,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     child: SfCartesianChart(
-                    //       tooltipBehavior: controller.tooltip,
-                    //       // Initialize category axis
-                    //       primaryXAxis: CategoryAxis(),
-                    //       series: <CartesianSeries>[
-                    //         // Initialize line series
-                    //         LineSeries<ChartData, String>(
-                    //           dataSource: [
-                    //             // Bind data source
-                    //             ChartData('Jan', 35, AppColor.blue500),
-                    //             ChartData('Feb', 28, AppColor.success500),
-                    //             ChartData('Mar', 34, AppColor.yellow500),
-                    //             ChartData('Apr', 32, AppColor.error500),
-                    //           ],
-                    //           xValueMapper: (ChartData data, _) => data.x,
-                    //           yValueMapper: (ChartData data, _) => data.y,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

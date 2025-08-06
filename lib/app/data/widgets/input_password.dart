@@ -50,8 +50,8 @@ class _InputPasswordState extends State<InputPassword> {
         suffixIcon: InkWell(
           onTap: () => setState(() => isShow = !isShow),
           child: isShow
-              ? const Icon(Icons.visibility_off)
-              : const Icon(Icons.visibility),
+              ? const Icon(Icons.visibility_off_outlined)
+              : const Icon(Icons.visibility_outlined),
         ),
         hintText: widget.hintText ?? '',
         hintStyle: textRegular.copyWith(color: AppColor.black400),

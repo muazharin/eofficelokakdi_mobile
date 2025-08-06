@@ -13,6 +13,11 @@ abstract class Routes {
   static const SPLASH = _Paths.SPLASH;
   static const SCANNER = _Paths.SCANNER;
   static const DOWNLOAD_FILE = _Paths.DOWNLOAD_FILE;
+  static const PROFILE = _Paths.PROFILE;
+  static const ABOUT = _Paths.ABOUT;
+  static const OUTBOX = _Paths.OUTBOX;
+  static const PHOTO = _Paths.PHOTO;
+  static const PROFILE_EDIT = _Paths.PROFILE_EDIT;
 }
 
 abstract class _Paths {
@@ -27,4 +32,9 @@ abstract class _Paths {
   static const SPLASH = '/splash';
   static const SCANNER = '/scanner';
   static const DOWNLOAD_FILE = '/download-file';
+  static const PROFILE = '/profile';
+  static const ABOUT = '/about';
+  static const OUTBOX = '/outbox';
+  static const PHOTO = '/photo';
+  static const PROFILE_EDIT = '/profile-edit';
 }
