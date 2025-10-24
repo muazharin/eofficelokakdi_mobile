@@ -64,11 +64,11 @@ class AssetDetailView extends GetView<AssetDetailController> {
                     children: [
                       DetailList(
                         name: "Kode Satker",
-                        value: "${controller.data.satker!.satkerCode}",
+                        value: "${controller.data.assets!.satker!.satkerCode}",
                       ),
                       DetailList(
                         name: "Nama Satker",
-                        value: "${controller.data.satker!.satkerName}",
+                        value: "${controller.data.assets!.satker!.satkerName}",
                       ),
                     ],
                   ),
@@ -86,33 +86,176 @@ class AssetDetailView extends GetView<AssetDetailController> {
                     children: [
                       DetailList(
                         name: "Kode Barang",
-                        value: "${controller.data.stuff?.stuffId}",
+                        value: "${controller.data.assets!.stuff?.stuffId}",
                       ),
-                      DetailList(name: "NUP", value: "${controller.data.nup}"),
+                      DetailList(
+                        name: "NUP",
+                        value: "${controller.data.assets!.nup}",
+                      ),
                       DetailList(
                         name: "Nama Barang",
-                        value: "${controller.data.stuff!.stuffName}",
+                        value: "${controller.data.assets!.stuff!.stuffName}",
                       ),
                       DetailList(
                         name: "Merk",
-                        value: "${controller.data.merk}",
+                        value: "${controller.data.assets!.merk}",
                       ),
                       DetailList(
                         name: "Jenis BMN",
-                        value: "${controller.data.bmn!.bmnName}",
+                        value: "${controller.data.assets!.bmn!.bmnName}",
                       ),
                       DetailList(
                         name: "Tgl. Perolehan",
                         value: DateFormat(
                           "dd-MM-yyyy",
-                        ).format(controller.data.firstBookDate!),
+                        ).format(controller.data.assets!.firstBookDate!),
                       ),
                       DetailList(
                         name: "Kondisi",
-                        value: "${controller.data.condition?.conditionName}",
+                        value:
+                            "${controller.data.assets!.condition?.conditionName}",
                       ),
                     ],
                   ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("History Barang", style: textSemiBold),
+                    InkWell(
+                      child: Text("Lihat Semua", style: textSemiBold),
+                      onTap: () => controller.listHistory(),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.blue200),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Keterangan", style: textSemiBold),
+                          const SizedBox(width: 8),
+                          Expanded(child: Divider()),
+                          const SizedBox(width: 8),
+                          Switch(
+                            value: controller.isShowNote,
+                            onChanged: (v) => controller.onChanged(v),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        controller.data.assets!.note ?? "Belum ada keterangan",
+                        style: textRegular,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Gambar Barang", style: textSemiBold),
+                    controller.isEditImg
+                        ? InkWell(
+                            onTap: () => controller.handleSaveImg(),
+                            child: Text("Simpan", style: textSemiBold),
+                          )
+                        : controller.files.isEmpty
+                        ? const SizedBox()
+                        : InkWell(
+                            onTap: () => controller.handleEditImg(),
+                            child: Text("Ubah", style: textSemiBold),
+                          ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.blue200),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: controller.files.isEmpty
+                      ? InkWell(
+                          onTap: () => controller.handleAddImgBtn(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                Icon(Icons.add_circle_outline_rounded),
+                                const SizedBox(height: 8),
+                                Text("Tambahkan sekarang", style: textRegular),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 56,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              ...controller.files.asMap().entries.map((v) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Badge(
+                                    isLabelVisible: controller.isEditImg,
+                                    label: InkWell(
+                                      onTap: controller.isEditImg
+                                          ? () => controller.handleRemoveImgBtn(
+                                              v.key,
+                                            )
+                                          : () {},
+                                      child: Icon(
+                                        Icons.clear_rounded,
+                                        size: 8,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () =>
+                                          controller.handleShowImage(v.key),
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadiusGeometry.circular(4),
+                                        child: Image.file(
+                                          v.value,
+                                          width: 40,
+                                          height: 40,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }),
+                              controller.isEditImg
+                                  ? GestureDetector(
+                                      onTap: () => controller.handleAddImgBtn(),
+                                      child: Container(
+                                        margin: const EdgeInsets.all(8),
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(),
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
+                                        ),
+                                        child: Icon(Icons.add_rounded),
+                                      ),
+                                    )
+                                  : const SizedBox(),
+                            ],
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 16),
                 Text("Lokasi Barang", style: textSemiBold),
@@ -135,11 +278,11 @@ class AssetDetailView extends GetView<AssetDetailController> {
                       const SizedBox(height: 8),
                       DetailList(
                         name: "Kode Satker",
-                        value: "${controller.data.satker!.satkerCode}",
+                        value: "${controller.data.assets!.satker!.satkerCode}",
                       ),
                       DetailList(
                         name: "Nama Satker",
-                        value: "${controller.data.satker!.satkerName}",
+                        value: "${controller.data.assets!.satker!.satkerName}",
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -155,12 +298,15 @@ class AssetDetailView extends GetView<AssetDetailController> {
                       const SizedBox(height: 8),
                       DetailList(
                         name: "Kode Barang",
-                        value: "${controller.data.stuff?.stuffId}",
+                        value: "${controller.data.assets!.stuff?.stuffId}",
                       ),
-                      DetailList(name: "NUP", value: "${controller.data.nup}"),
+                      DetailList(
+                        name: "NUP",
+                        value: "${controller.data.assets!.nup}",
+                      ),
                       DetailList(
                         name: "Nama Barang",
-                        value: "${controller.data.name}",
+                        value: "${controller.data.assets!.name}",
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -173,23 +319,22 @@ class AssetDetailView extends GetView<AssetDetailController> {
                       const SizedBox(height: 8),
                       DetailList(
                         name: "Kode Ruangan",
-                        value: controller.data.location?.locationId == 1
+                        value: controller.data.assets!.location?.locationId == 1
                             ? "-"
-                            : controller.data.location!.locationName!.split(
-                                ' - ',
-                              )[0],
+                            : controller.data.assets!.location!.locationName!
+                                  .split(' - ')[0],
                       ),
                       DetailList(
                         name: "Nama Ruangan",
-                        value: controller.data.location?.locationId == 1
-                            ? controller.data.location!.locationName!
-                            : controller.data.location!.locationName!.split(
-                                ' - ',
-                              )[1],
+                        value: controller.data.assets!.location?.locationId == 1
+                            ? controller.data.assets!.location!.locationName!
+                            : controller.data.assets!.location!.locationName!
+                                  .split(' - ')[1],
                       ),
                       DetailList(
                         name: "Keterangan",
-                        value: "${controller.data.usageStatus!.usageName}",
+                        value:
+                            "${controller.data.assets!.usageStatus!.usageName}",
                       ),
                     ],
                   ),

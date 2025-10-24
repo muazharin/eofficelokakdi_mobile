@@ -202,13 +202,17 @@ class AssetController extends GetxController
   }
 
   void handleDeleteBtn(int? id) {
-    Get.dialog(
-      PopUpOption(
-        title: "Hapus User",
-        detail: "Anda yakin menghapus data ini?",
-        onTap: () => doDelete(id),
-      ),
-    );
+    if (isAdmin) {
+      Get.dialog(
+        PopUpOption(
+          title: "Hapus User",
+          detail: "Anda yakin menghapus data ini?",
+          onTap: () => doDelete(id),
+        ),
+      );
+    } else {
+      snackbarWarning(message: "Anda tidak memiliki akses");
+    }
   }
 
   void doDelete(int? id) async {

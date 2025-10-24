@@ -216,7 +216,13 @@ class ProfileView extends GetView<ProfileController> {
                   child: Form(
                     key: controller.keyForm,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Text(
+                          "Ubah Password",
+                          style: textSemiBold.copyWith(fontSize: 18),
+                        ),
+                        const SizedBox(height: 16),
                         InputPassword(
                           hintText: "Masukkan Password Baru",
                           controller: controller.password,

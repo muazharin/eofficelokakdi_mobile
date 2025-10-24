@@ -1,3 +1,49 @@
+class AssetParentModel {
+  List<AssetImage>? assetImages;
+  AssetModel? assets;
+
+  AssetParentModel({this.assetImages, this.assets});
+
+  factory AssetParentModel.fromJson(Map<String, dynamic> json) =>
+      AssetParentModel(
+        assetImages: json["asset_images"] == null
+            ? []
+            : List<AssetImage>.from(
+                json["asset_images"]!.map((x) => AssetImage.fromJson(x)),
+              ),
+        assets: json["assets"] == null
+            ? null
+            : AssetModel.fromJson(json["assets"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+    "asset_images": assetImages == null
+        ? []
+        : List<dynamic>.from(assetImages!.map((x) => x.toJson())),
+    "assets": assets?.toJson(),
+  };
+}
+
+class AssetImage {
+  int? assetImageId;
+  int? assetId;
+  String? assetFile;
+
+  AssetImage({this.assetImageId, this.assetId, this.assetFile});
+
+  factory AssetImage.fromJson(Map<String, dynamic> json) => AssetImage(
+    assetImageId: json["asset_image_id"],
+    assetId: json["asset_id"],
+    assetFile: json["asset_file"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "asset_image_id": assetImageId,
+    "asset_id": assetId,
+    "asset_file": assetFile,
+  };
+}
+
 class AssetModel {
   int? assetId;
   Bmn? bmn;
@@ -65,6 +111,8 @@ class AssetModel {
   String? e1Name;
   String? korwilName;
   String? regCode;
+  String? note;
+  String? isShowNote;
   Location? location;
   bool? isDeleted;
   DateTime? createdAt;
@@ -127,6 +175,8 @@ class AssetModel {
     this.province,
     this.postalCode,
     this.sbsk,
+    this.note,
+    this.isShowNote,
     this.optimalization,
     this.occupant,
     this.user,
@@ -222,6 +272,8 @@ class AssetModel {
         : Province.fromJson(json["Province"]),
     postalCode: json["postal_code"],
     sbsk: json["sbsk"],
+    note: json["note"],
+    isShowNote: json["is_show_note"],
     optimalization: json["optimalization"],
     occupant: json["occupant"],
     user: json["user"],
@@ -500,4 +552,48 @@ class UsageStatus {
     "usage_id": usageId,
     "usage_name": usageName,
   };
+}
+
+class AssetHistory {
+  int? assetHistoryId;
+  UserHistory? userHistory;
+  String? assetNote;
+  DateTime? assetHistoryDate;
+
+  AssetHistory({
+    this.assetHistoryId,
+    this.userHistory,
+    this.assetNote,
+    this.assetHistoryDate,
+  });
+
+  factory AssetHistory.fromJson(Map<String, dynamic> json) => AssetHistory(
+    assetHistoryId: json["asset_history_id"],
+    userHistory: json["UserHistory"] == null
+        ? null
+        : UserHistory.fromJson(json["UserHistory"]),
+    assetNote: json["asset_note"],
+    assetHistoryDate: json["asset_history_date"] == null
+        ? null
+        : DateTime.parse(json["asset_history_date"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "asset_history_id": assetHistoryId,
+    "UserHistory": userHistory?.toJson(),
+    "asset_note": assetNote,
+    "asset_history_date": assetHistoryDate?.toIso8601String(),
+  };
+}
+
+class UserHistory {
+  int? userId;
+  String? userName;
+
+  UserHistory({this.userId, this.userName});
+
+  factory UserHistory.fromJson(Map<String, dynamic> json) =>
+      UserHistory(userId: json["user_id"], userName: json["user_name"]);
+
+  Map<String, dynamic> toJson() => {"user_id": userId, "user_name": userName};
 }

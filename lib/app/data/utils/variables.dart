@@ -1,5 +1,6 @@
 class AppVariable {
   AppVariable._();
+  static String serialNo = "/api/v1/outbox/serial_no";
   static String signin = "/api/v1/auth/signin";
   static String user = "/api/v1/user";
   static String userPhoto = "/api/v1/user/update_photo";
@@ -8,6 +9,9 @@ class AppVariable {
   static String assetChart = "/api/v1/asset/charts";
   static String assetByParams = "/api/v1/asset/by_params";
   static String assetDownload = "/api/v1/asset/export_excel";
+  static String assetUploadImg = "/api/v1/asset/update_image";
+  static String assetShowNote = "/api/v1/asset/update_show_note";
+  static String assetHistory = "/api/v1/asset/history";
   static String bmn = "/api/v1/asset/bmns";
   static String stuff = "/api/v1/asset/stuffs";
   static String condition = "/api/v1/asset/conditions";

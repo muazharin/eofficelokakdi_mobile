@@ -19,6 +19,7 @@ final dio = Dio(
 String error(DioException v) {
   print(v.type);
   print(v.message);
+  print(dio.options.baseUrl);
   switch (v.type) {
     case DioExceptionType.connectionTimeout:
       return AppVariable.rto;

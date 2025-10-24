@@ -1,23 +1,12 @@
+import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 
 class OutboxController extends GetxController {
-  //TODO: Implement OutboxController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void handleBackBtn() {
+    Get.back();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void handleAddBtn() {
+    Get.toNamed(Routes.OUTBOX_ADD);
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

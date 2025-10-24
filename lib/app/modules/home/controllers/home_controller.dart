@@ -55,6 +55,14 @@ class HomeController extends GetxController {
         onTap: () => Get.toNamed(Routes.ASSET),
       ),
       MenuModel(
+        id: 6,
+        name: "Peminjaman Asset",
+        icon: "assets/png/ballot.png",
+        bgColor: Color(0xffefbbff),
+        txColor: Color(0xffbe29ec),
+        onTap: () => Get.toNamed(Routes.BORROW),
+      ),
+      MenuModel(
         id: 2,
         name: "Surat Masuk",
         icon: "assets/png/envelope-download.png",
@@ -68,6 +76,7 @@ class HomeController extends GetxController {
         icon: "assets/png/envelope-upload.png",
         bgColor: Color(0xfff1fadd),
         txColor: Color(0xffa5df29),
+        // onTap: () => Get.toNamed(Routes.OUTBOX),
         onTap: () => snackbarWarning(message: "Sedang proses development"),
       ),
       MenuModel(
@@ -94,6 +103,7 @@ class HomeController extends GetxController {
   }
 
   void getDataUser() async {
+    userData['user_photo'] = 'https://picsum.photos/200/300';
     userData = JwtDecoder.decode((await box.getData("token"))!);
     update();
   }

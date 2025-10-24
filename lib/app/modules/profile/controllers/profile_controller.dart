@@ -88,11 +88,10 @@ class ProfileController extends GetxController {
     loadingPage(message: "Sedang memproses...");
     try {
       var userId = JwtDecoder.decode((await box.getData('token'))!)['user_id'];
+      var userPhoto = await MultipartFile.fromFile(image.path);
       final response = await Api().putFileToken(
         path: AppVariable.userPhoto,
-        data: FormData.fromMap({
-          "user_photo": await MultipartFile.fromFile(image.path),
-        }),
+        data: FormData.fromMap({"user_photo": userPhoto}),
         queryParameters: {"user_id": userId},
       );
       var result = jsonDecode(response.toString());

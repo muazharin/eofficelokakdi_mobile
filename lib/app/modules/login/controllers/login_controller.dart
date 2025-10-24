@@ -16,6 +16,7 @@ class LoginController extends GetxController {
   var keyForm = GlobalKey<FormState>();
 
   void handleLogin() async {
+    FocusScope.of(Get.context!).unfocus();
     if (keyForm.currentState!.validate()) {
       isLoading = true;
       update();

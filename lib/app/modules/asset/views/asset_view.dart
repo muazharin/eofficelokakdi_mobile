@@ -117,18 +117,29 @@ class AssetView extends GetView<AssetController> {
                                   ),
                                   child: ListTile(
                                     title: Text(
-                                      v.value.merk!,
+                                      v.value.stuff!.stuffName!,
                                       style: textSemiBold,
                                     ),
                                     subtitle: Text(
-                                      v.value.stuff!.stuffName!,
+                                      v.value.merk!,
                                       style: textSemiBold.copyWith(
                                         fontSize: 12,
                                         color: AppColor.black200,
                                       ),
                                     ),
-                                    trailing: Icon(
-                                      Icons.arrow_forward_ios_rounded,
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        v.value.isShowNote == "Yes"
+                                            ? Icon(
+                                                Icons.circle_rounded,
+                                                size: 14,
+                                                color: AppColor.success500,
+                                              )
+                                            : const SizedBox(),
+                                        const SizedBox(width: 8),
+                                        Icon(Icons.arrow_forward_ios_rounded),
+                                      ],
                                     ),
                                   ),
                                 ),

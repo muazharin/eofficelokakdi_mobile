@@ -260,11 +260,11 @@ class HomeView extends GetView<HomeController> {
                       ),
                     ),
                     SizedBox(
-                      height: 120,
+                      height: 250,
                       child: GridView.count(
-                        crossAxisCount: 5,
+                        crossAxisCount: 3,
                         physics: const NeverScrollableScrollPhysics(),
-                        childAspectRatio: 9 / 15,
+                        childAspectRatio: 1,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         mainAxisSpacing: 8,
                         crossAxisSpacing: 8,
@@ -287,13 +287,15 @@ class HomeView extends GetView<HomeController> {
                                   ],
                                 ),
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CircleAvatar(
+                                      radius: 20,
                                       backgroundColor: v.bgColor,
                                       child: Image.asset(
                                         v.icon!,
-                                        width: 24,
-                                        height: 24,
+                                        width: 28,
+                                        height: 28,
                                         fit: BoxFit.contain,
                                         color: v.txColor,
                                       ),

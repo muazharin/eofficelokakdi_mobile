@@ -47,6 +47,8 @@ class AssetAddView extends GetView<AssetAddController> {
               key: controller.key,
               child: ListView(
                 children: [
+                  Text("Jenis BMN", style: textRegular),
+                  const SizedBox(height: 4),
                   InputSelect(
                     hintText: "Pilih Jenis BMN",
                     onTap: () => controller.handleSelectOpt({
@@ -57,6 +59,8 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valString!(v, "Jenis BMN"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Kode Barang", style: textRegular),
+                  const SizedBox(height: 4),
                   InputSelect(
                     hintText: "Pilih Kode Barang",
                     onTap: () => controller.handleSelectOpt({
@@ -67,28 +71,36 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valString!(v, "Kode Barang"),
                   ),
                   const SizedBox(height: 8),
+                  Text("NUP", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "NUP",
+                    hintText: "Masukkan NUP",
                     controller: controller.nup,
                     keyboardType: TextInputType.number,
                     onChanged: (v) {},
                     validator: (v) => valNumber!(v, "NUP"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Merk", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Merk",
+                    hintText: "Masukkan Merk",
                     controller: controller.merk,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "Merk"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Tipe", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Tipe",
+                    hintText: "Masukkan Tipe",
                     controller: controller.assetType,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "Tipe"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Kondisi", style: textRegular),
+                  const SizedBox(height: 4),
                   InputSelect(
                     hintText: "Pilih Kondisi",
                     onTap: () => controller.handleSelectOpt({
@@ -99,22 +111,28 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valString!(v, "Kondisi"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Jenis Dokumen", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Jenis Dokumen",
+                    hintText: "Masukkan Jenis Dokumen",
                     controller: controller.documentType,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "Jenis Dokumen"),
                   ),
                   const SizedBox(height: 8),
+                  Text("No. Dokumen", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "No. Dokumen",
+                    hintText: "Masukkan No. Dokumen",
                     controller: controller.documentNo,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "No. Dokumen"),
                   ),
                   const SizedBox(height: 8),
+                  Text("No. BPKP", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "No. BPKP",
+                    hintText: "Masukkan No. BPKP",
                     controller: controller.bpkpNo,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "No. BPKP"),
@@ -122,36 +140,44 @@ class AssetAddView extends GetView<AssetAddController> {
                   const SizedBox(height: 8),
                   controller.bmnName.text.isNotEmpty && controller.bmn.id == 3
                       ? InputText(
-                          hintText: "No. Polisi",
+                          hintText: "Masukkan No. Polisi",
                           controller: controller.policeNo,
                           onChanged: (v) {},
                           validator: (v) => valString!(v, "No. Polisi"),
                         )
                       : const SizedBox(),
                   const SizedBox(height: 8),
+                  Text("Status Sertifikat", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Status Sertifikat",
+                    hintText: "Masukkan Status Sertifikat",
                     controller: controller.certificateStatus,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "Status Sertifikat"),
                   ),
                   const SizedBox(height: 8),
+                  Text("No. Sertifikat", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "No. Sertifikat",
+                    hintText: "Masukkan No. Sertifikat",
                     controller: controller.certificateNo,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "No. Sertifikat"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Nama Barang", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Nama Barang",
+                    hintText: "Masukkan Nama Barang",
                     controller: controller.name,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "Nama Barang"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Tanggal Buku Pertama", style: textRegular),
+                  const SizedBox(height: 4),
                   InputDate(
-                    hintText: "Tanggal Buku Pertama",
+                    hintText: "Masukkan Tanggal Buku Pertama",
                     controller: controller.firstBookDate,
                     onChanged: (v) {},
                     isBirthDate: true,
@@ -160,8 +186,10 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valString!(v, "Tanggal Buku Pertama"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Tanggal Akuisisi", style: textRegular),
+                  const SizedBox(height: 4),
                   InputDate(
-                    hintText: "Tanggal Akuisisi",
+                    hintText: "Masukkan Tanggal Akuisisi",
                     controller: controller.acquisitionDate,
                     onChanged: (v) {},
                     isBirthDate: true,
@@ -170,8 +198,10 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valString!(v, "Tanggal Akuisisi"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Nilai Perolehan Pertama", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Nilai Perolehan Pertama",
+                    hintText: "Masukkan Nilai Perolehan Pertama",
                     controller: controller.firstEarningValue,
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
@@ -185,8 +215,10 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valNumber!(v, "Nilai Perolehan Pertama"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Nilai Mutasi", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Nilai Mutasi",
+                    hintText: "Masukkan Nilai Mutasi",
                     controller: controller.mutationValue,
                     keyboardType: TextInputType.number,
                     onChanged: (v) {},
@@ -200,8 +232,10 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valNumber!(v, "Nilai Mutasi"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Nilai Perolehan", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Nilai Perolehan",
+                    hintText: "Masukkan Nilai Perolehan",
                     controller: controller.earnedValue,
                     keyboardType: TextInputType.number,
                     onChanged: (v) {},
@@ -215,8 +249,10 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valNumber!(v, "Nilai Perolehan"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Nilai Penyusutan", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Nilai Penyusutan",
+                    hintText: "Masukkan Nilai Penyusutan",
                     controller: controller.depreciationValue,
                     keyboardType: TextInputType.number,
                     onChanged: (v) {},
@@ -230,8 +266,10 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valNumber!(v, "Nilai Penyusutan"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Nilai Buku", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Nilai Buku",
+                    hintText: "Masukkan Nilai Buku",
                     controller: controller.bookValue,
                     keyboardType: TextInputType.number,
                     onChanged: (v) {},
@@ -245,6 +283,8 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valNumber!(v, "Nilai Buku"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Lokasi Ruang", style: textRegular),
+                  const SizedBox(height: 4),
                   InputSelect(
                     hintText: "Pilih Lokasi Ruang",
                     onTap: () => controller.handleSelectOpt({
@@ -255,6 +295,8 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valString!(v, "Lokasi Ruang"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Status Penggunaan", style: textRegular),
+                  const SizedBox(height: 4),
                   InputSelect(
                     hintText: "Pilih Status Penggunaan",
                     onTap: () => controller.handleSelectOpt({
@@ -269,8 +311,10 @@ class AssetAddView extends GetView<AssetAddController> {
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Text("Luas Tanah Seluruhnya", style: textRegular),
+                            const SizedBox(height: 4),
                             InputText(
-                              hintText: "Luas Tanah Seluruhnya",
+                              hintText: "Masukkan Luas Tanah Seluruhnya",
                               controller: controller.totalArea,
                               onChanged: (v) {},
                               keyboardType: TextInputType.number,
@@ -285,8 +329,13 @@ class AssetAddView extends GetView<AssetAddController> {
                                   valNumber!(v, "Luas Tanah Seluruhnya"),
                             ),
                             const SizedBox(height: 8),
+                            Text(
+                              "Luas Tanah Untuk Bangunan",
+                              style: textRegular,
+                            ),
+                            const SizedBox(height: 4),
                             InputText(
-                              hintText: "Luas Tanah Untuk Bangunan",
+                              hintText: "Masukkan Luas Tanah Untuk Bangunan",
                               controller: controller.landAreaForBuilding,
                               onChanged: (v) {},
                               keyboardType: TextInputType.number,
@@ -301,8 +350,14 @@ class AssetAddView extends GetView<AssetAddController> {
                                   valNumber!(v, "Luas Tanah Untuk Bangunan"),
                             ),
                             const SizedBox(height: 8),
+                            Text(
+                              "Luas Tanah Untuk Sarana Lingkungan",
+                              style: textRegular,
+                            ),
+                            const SizedBox(height: 4),
                             InputText(
-                              hintText: "Luas Tanah Untuk Sarana Lingkungan",
+                              hintText:
+                                  "Masukkan Luas Tanah Untuk Sarana Lingkungan",
                               controller: controller.landAreaForEnvFacilities,
                               onChanged: (v) {},
                               keyboardType: TextInputType.number,
@@ -319,8 +374,10 @@ class AssetAddView extends GetView<AssetAddController> {
                               ),
                             ),
                             const SizedBox(height: 8),
+                            Text("Luas Tanah Kosong", style: textRegular),
+                            const SizedBox(height: 4),
                             InputText(
-                              hintText: "Luas Tanah Kosong",
+                              hintText: "Masukkan Luas Tanah Kosong",
                               controller: controller.vacantLandArea,
                               onChanged: (v) {},
                               keyboardType: TextInputType.number,
@@ -335,8 +392,10 @@ class AssetAddView extends GetView<AssetAddController> {
                                   valNumber!(v, "Luas Tanah Kosong"),
                             ),
                             const SizedBox(height: 8),
+                            Text("Luas Bangunan", style: textRegular),
+                            const SizedBox(height: 4),
                             InputText(
-                              hintText: "Luas Bangunan",
+                              hintText: "Masukkan Luas Bangunan",
                               controller: controller.buildingLandArea,
                               onChanged: (v) {},
                               keyboardType: TextInputType.number,
@@ -350,6 +409,8 @@ class AssetAddView extends GetView<AssetAddController> {
                               validator: (v) => valNumber!(v, "Luas Bangunan"),
                             ),
                             const SizedBox(height: 8),
+                            Text("Provinsi", style: textRegular),
+                            const SizedBox(height: 4),
                             InputSelect(
                               hintText: "Pilih Provinsi",
                               onTap: () => controller.handleSelectOpt({
@@ -360,6 +421,8 @@ class AssetAddView extends GetView<AssetAddController> {
                               validator: (v) => valString!(v, "Provinsi"),
                             ),
                             const SizedBox(height: 8),
+                            Text("Kota/Kab", style: textRegular),
+                            const SizedBox(height: 4),
                             InputSelect(
                               hintText: "Pilih Kota/Kab",
                               onTap: () => controller.province.id == null
@@ -377,6 +440,8 @@ class AssetAddView extends GetView<AssetAddController> {
                               validator: (v) => valString!(v, "Kota/Kab"),
                             ),
                             const SizedBox(height: 8),
+                            Text("Kecamatan", style: textRegular),
+                            const SizedBox(height: 4),
                             InputSelect(
                               hintText: "Pilih Kecamatan",
                               onTap: () => controller.city.id == null
@@ -392,6 +457,8 @@ class AssetAddView extends GetView<AssetAddController> {
                               validator: (v) => valString!(v, "Kecamatan"),
                             ),
                             const SizedBox(height: 8),
+                            Text("Kelurahan", style: textRegular),
+                            const SizedBox(height: 4),
                             InputSelect(
                               hintText: "Pilih Kelurahan",
                               onTap: () => controller.district.id == null
@@ -410,15 +477,19 @@ class AssetAddView extends GetView<AssetAddController> {
                               validator: (v) => valString!(v, "Kelurahan"),
                             ),
                             const SizedBox(height: 8),
+                            Text("RT/RW", style: textRegular),
+                            const SizedBox(height: 4),
                             InputText(
-                              hintText: "RT/RW",
+                              hintText: "Masukkan RT/RW",
                               controller: controller.rtRw,
                               onChanged: (v) {},
                               validator: (v) => valString!(v, "RT/RW"),
                             ),
                             const SizedBox(height: 8),
+                            Text("Alamat", style: textRegular),
+                            const SizedBox(height: 4),
                             InputText(
-                              hintText: "Alamat",
+                              hintText: "Masukkan Alamat",
                               controller: controller.address,
                               onChanged: (v) {},
                               minLines: 4,
@@ -429,22 +500,28 @@ class AssetAddView extends GetView<AssetAddController> {
                           ],
                         )
                       : const SizedBox(),
+                  Text("Jumlah Foto", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Jumlah Foto",
+                    hintText: "Masukkan Jumlah Foto",
                     controller: controller.noOfPhotos,
                     onChanged: (v) {},
                     validator: (v) => valNumber!(v, "Jumlah Foto"),
                   ),
                   const SizedBox(height: 8),
+                  Text("No. PSP", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "No. PSP",
+                    hintText: "Masukkan No. PSP",
                     controller: controller.pspNo,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "No. PSP"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Tanggal PSP", style: textRegular),
+                  const SizedBox(height: 4),
                   InputDate(
-                    hintText: "Tanggal PSP",
+                    hintText: "Masukkan Tanggal PSP",
                     controller: controller.pspDate,
                     isBirthDate: true,
                     onChanged: (v) {},
@@ -453,18 +530,33 @@ class AssetAddView extends GetView<AssetAddController> {
                     validator: (v) => valString!(v, "Tanggal PSP"),
                   ),
                   const SizedBox(height: 8),
+                  Text("Kode Pos", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "Kode Pos",
+                    hintText: "Masukkan Kode Pos",
                     controller: controller.postalCode,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "Kode Pos"),
                   ),
                   const SizedBox(height: 8),
+                  Text("SBSK", style: textRegular),
+                  const SizedBox(height: 4),
                   InputText(
-                    hintText: "SBSK",
+                    hintText: "Masukkan SBSK",
                     controller: controller.sbsk,
                     onChanged: (v) {},
                     validator: (v) => valString!(v, "SBSK"),
+                  ),
+                  const SizedBox(height: 8),
+                  Text("Keterangan", style: textRegular),
+                  const SizedBox(height: 4),
+                  InputText(
+                    hintText: "Masukkan Keterangan",
+                    controller: controller.note,
+                    onChanged: (v) {},
+                    minLines: 4,
+                    maxLines: 4,
+                    validator: (v) => valString!(v, "Keterangan"),
                   ),
                   const SizedBox(height: 16),
                   ButtonDefault(

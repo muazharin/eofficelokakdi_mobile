@@ -3,17 +3,20 @@ import 'dart:convert';
 import 'package:eoffice/app/data/models/asset.dart';
 import 'package:eoffice/app/data/models/select_opt.dart';
 import 'package:eoffice/app/data/services/api.dart';
+import 'package:eoffice/app/data/services/secure_storage.dart';
 import 'package:eoffice/app/data/utils/variables.dart';
 import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AssetAddController extends GetxController {
   var arg = Get.arguments;
   var isEdit = false;
   var title = "Tambah";
+  var box = SecureStorageService();
   var dataEdit = AssetModel();
   var key = GlobalKey<FormState>();
   var isLoading = false;
@@ -66,18 +69,23 @@ class AssetAddController extends GetxController {
   var subdistrict = SelectOptModel();
   var postalCode = TextEditingController();
   var sbsk = TextEditingController();
+  var note = TextEditingController();
   var locationName = TextEditingController();
   var location = SelectOptModel();
+  var userData = <String, dynamic>{};
 
   @override
-  void onInit() {
+  void onInit() async {
+    userData = JwtDecoder.decode((await box.getData("token"))!);
+    print(userData);
+    update();
     if (arg != null) {
       handleIsEdit();
     }
     super.onInit();
   }
 
-  void handleIsEdit() {
+  void handleIsEdit() async {
     isEdit = true;
     title = "Edit";
     dataEdit = arg as AssetModel;
@@ -261,10 +269,14 @@ class AssetAddController extends GetxController {
     if (key.currentState!.validate()) {
       isLoading = true;
       if (isEdit) {
+        print(userData["user_id"]);
         try {
           final response = await Api().putWithToken(
             path: AppVariable.asset,
-            queryParameters: {"asset_id": dataEdit.assetId},
+            queryParameters: {
+              "asset_id": dataEdit.assetId,
+              "user_id": userData["user_id"],
+            },
             data: {
               "bmn_id": bmn.id,
               "satker_id": 1,
@@ -325,6 +337,8 @@ class AssetAddController extends GetxController {
               "postal_code": int.parse(postalCode.text),
               "sbsk": int.parse(sbsk.text),
               "location_id": location.id,
+              "note": note.text,
+              "is_show_note": "Yes",
             },
           );
           var result = jsonDecode(response.toString());
@@ -335,6 +349,7 @@ class AssetAddController extends GetxController {
             snackbarDanger(message: "Terjadi Kesalahan!");
           }
         } catch (e) {
+          print(e);
           snackbarDanger(message: "Terjadi Kesalahans");
         } finally {
           isLoading = false;
@@ -404,6 +419,8 @@ class AssetAddController extends GetxController {
               "postal_code": int.parse(postalCode.text),
               "sbsk": int.parse(sbsk.text),
               "location_id": location.id,
+              "note": note.text,
+              "is_show_note": "Yes",
             },
           );
           var result = jsonDecode(response.toString());

@@ -10,6 +10,10 @@ import '../modules/asset_detail/bindings/asset_detail_binding.dart';
 import '../modules/asset_detail/views/asset_detail_view.dart';
 import '../modules/asset_filter/bindings/asset_filter_binding.dart';
 import '../modules/asset_filter/views/asset_filter_view.dart';
+import '../modules/asset_history/bindings/asset_history_binding.dart';
+import '../modules/asset_history/views/asset_history_view.dart';
+import '../modules/borrow/bindings/borrow_binding.dart';
+import '../modules/borrow/views/borrow_view.dart';
 import '../modules/download_file/bindings/download_file_binding.dart';
 import '../modules/download_file/views/download_file_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -18,6 +22,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/outbox/bindings/outbox_binding.dart';
 import '../modules/outbox/views/outbox_view.dart';
+import '../modules/outbox_add/bindings/outbox_add_binding.dart';
+import '../modules/outbox_add/views/outbox_add_view.dart';
 import '../modules/photo/bindings/photo_binding.dart';
 import '../modules/photo/views/photo_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
@@ -117,6 +123,21 @@ class AppPages {
       name: _Paths.PROFILE_EDIT,
       page: () => const ProfileEditView(),
       binding: ProfileEditBinding(),
+    ),
+    GetPage(
+      name: _Paths.OUTBOX_ADD,
+      page: () => const OutboxAddView(),
+      binding: OutboxAddBinding(),
+    ),
+    GetPage(
+      name: _Paths.BORROW,
+      page: () => const BorrowView(),
+      binding: BorrowBinding(),
+    ),
+    GetPage(
+      name: _Paths.ASSET_HISTORY,
+      page: () => const AssetHistoryView(),
+      binding: AssetHistoryBinding(),
     ),
   ];
 }

@@ -18,6 +18,9 @@ abstract class Routes {
   static const OUTBOX = _Paths.OUTBOX;
   static const PHOTO = _Paths.PHOTO;
   static const PROFILE_EDIT = _Paths.PROFILE_EDIT;
+  static const OUTBOX_ADD = _Paths.OUTBOX_ADD;
+  static const BORROW = _Paths.BORROW;
+  static const ASSET_HISTORY = _Paths.ASSET_HISTORY;
 }
 
 abstract class _Paths {
@@ -37,4 +40,7 @@ abstract class _Paths {
   static const OUTBOX = '/outbox';
   static const PHOTO = '/photo';
   static const PROFILE_EDIT = '/profile-edit';
+  static const OUTBOX_ADD = '/outbox-add';
+  static const BORROW = '/borrow';
+  static const ASSET_HISTORY = '/asset-history';
 }
