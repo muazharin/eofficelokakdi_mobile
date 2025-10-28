@@ -34,14 +34,14 @@ class ProfileEditController extends GetxController {
     name.text = data.userName!;
     email.text = data.userEmail!;
     phone.text = data.userPhone!;
-    birth.text = DateFormat("dd MMM yyyy").format(data.userTglLahir!);
+    birth.text = DateFormat("dd MMM yyyy", "id").format(data.userTglLahir!);
     birthFormat = data.userTglLahir!;
     address.text = data.userAddress!;
     update();
   }
 
   void handleSelectDate(DateTime date) {
-    birth.text = DateFormat("dd MMM yyyy").format(date);
+    birth.text = DateFormat("dd MMM yyyy", "id").format(date);
     birthFormat = date;
     update();
   }

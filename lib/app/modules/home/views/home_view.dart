@@ -259,21 +259,17 @@ class HomeView extends GetView<HomeController> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 250,
-                      child: GridView.count(
-                        crossAxisCount: 3,
-                        physics: const NeverScrollableScrollPhysics(),
-                        childAspectRatio: 1,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Wrap(
                         children: [
                           ...controller.menus.map((v) {
                             return GestureDetector(
                               onTap: v.onTap,
                               child: Container(
-                                padding: const EdgeInsets.only(top: 8),
+                                width: ((Get.width - 32) / 2) - 8,
+                                padding: const EdgeInsets.all(8),
+                                margin: const EdgeInsets.fromLTRB(0, 0, 8, 8),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(16),
@@ -286,8 +282,7 @@ class HomeView extends GetView<HomeController> {
                                     ),
                                   ],
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                child: Row(
                                   children: [
                                     CircleAvatar(
                                       radius: 20,
@@ -300,13 +295,14 @@ class HomeView extends GetView<HomeController> {
                                         color: v.txColor,
                                       ),
                                     ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      v.name!,
-                                      style: textSemiBold.copyWith(
-                                        fontSize: 12,
+                                    SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        v.name!,
+                                        style: textSemiBold.copyWith(
+                                          fontSize: 12,
+                                        ),
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 ),
@@ -316,6 +312,63 @@ class HomeView extends GetView<HomeController> {
                         ],
                       ),
                     ),
+                    // SizedBox(
+                    //   height: 250,
+                    //   child: GridView.count(
+                    //     crossAxisCount: 3,
+                    //     physics: const NeverScrollableScrollPhysics(),
+                    //     childAspectRatio: 1,
+                    //     padding: const EdgeInsets.symmetric(horizontal: 16),
+                    //     mainAxisSpacing: 8,
+                    //     crossAxisSpacing: 8,
+                    //     children: [
+                    //       ...controller.menus.map((v) {
+                    //         return GestureDetector(
+                    //           onTap: v.onTap,
+                    //           child: Container(
+                    //             padding: const EdgeInsets.only(top: 8),
+                    //             decoration: BoxDecoration(
+                    //               color: Colors.white,
+                    //               borderRadius: BorderRadius.circular(16),
+                    //               boxShadow: [
+                    //                 BoxShadow(
+                    //                   offset: Offset(0, 0),
+                    //                   blurRadius: 1,
+                    //                   spreadRadius: .1,
+                    //                   color: v.txColor!.withAlpha(80),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //             child: Column(
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               children: [
+                    //                 CircleAvatar(
+                    //                   radius: 20,
+                    //                   backgroundColor: v.bgColor,
+                    //                   child: Image.asset(
+                    //                     v.icon!,
+                    //                     width: 28,
+                    //                     height: 28,
+                    //                     fit: BoxFit.contain,
+                    //                     color: v.txColor,
+                    //                   ),
+                    //                 ),
+                    //                 SizedBox(height: 8),
+                    //                 Text(
+                    //                   v.name!,
+                    //                   style: textSemiBold.copyWith(
+                    //                     fontSize: 12,
+                    //                   ),
+                    //                   textAlign: TextAlign.center,
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         );
+                    //       }),
+                    //     ],
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
@@ -328,7 +381,10 @@ class HomeView extends GetView<HomeController> {
                           Expanded(child: Divider(color: AppColor.black100)),
                           SizedBox(width: 8),
                           Text(
-                            DateFormat("dd MMM yyyy").format(DateTime.now()),
+                            DateFormat(
+                              "dd MMMM yyyy",
+                              "id",
+                            ).format(DateTime.now()),
                             style: textSemiBold,
                           ),
                         ],

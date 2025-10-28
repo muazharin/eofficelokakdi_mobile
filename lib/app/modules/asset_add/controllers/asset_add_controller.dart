@@ -115,10 +115,12 @@ class AssetAddController extends GetxController {
     firstBookDateFormat = dataEdit.firstBookDate!;
     firstBookDate.text = DateFormat(
       "dd MMMM yyyy",
+      "id",
     ).format(dataEdit.firstBookDate!);
     acquisitionDateFormat = dataEdit.acquisitionDate!;
     acquisitionDate.text = DateFormat(
       "dd MMMM yyyy",
+      "id",
     ).format(dataEdit.acquisitionDate!);
     firstEarningValue.text = "${dataEdit.firstEarningValue}";
     mutationValue.text = "${dataEdit.mutationValue}";
@@ -138,7 +140,7 @@ class AssetAddController extends GetxController {
     );
     pspNo.text = "${dataEdit.pspNo}";
     pspDateFormat = dataEdit.pspDate!;
-    pspDate.text = DateFormat("dd MMMM yyyy").format(dataEdit.pspDate!);
+    pspDate.text = DateFormat("dd MMMM yyyy", "id").format(dataEdit.pspDate!);
     address.text = "${dataEdit.address}";
     rtRw.text = "${dataEdit.rtRw}";
     provinceName.text = dataEdit.province!.provinceName!;
@@ -178,17 +180,17 @@ class AssetAddController extends GetxController {
   void handleSelectDate(DateTime date, String name) {
     switch (name) {
       case "Tanggal Buku Pertama":
-        firstBookDate.text = DateFormat("dd MMMM yyyy").format(date);
+        firstBookDate.text = DateFormat("dd MMMM yyyy", "id").format(date);
         firstBookDateFormat = date;
         update();
         break;
       case "Tanggal Akuisisi":
-        acquisitionDate.text = DateFormat("dd MMMM yyyy").format(date);
+        acquisitionDate.text = DateFormat("dd MMMM yyyy", "id").format(date);
         acquisitionDateFormat = date;
         update();
         break;
       case "Tanggal PSP":
-        pspDate.text = DateFormat("dd MMMM yyyy").format(date);
+        pspDate.text = DateFormat("dd MMMM yyyy", "id").format(date);
         pspDateFormat = date;
         update();
         break;

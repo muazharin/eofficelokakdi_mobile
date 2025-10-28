@@ -108,6 +108,7 @@ class AssetDetailView extends GetView<AssetDetailController> {
                         name: "Tgl. Perolehan",
                         value: DateFormat(
                           "dd-MM-yyyy",
+                          "id",
                         ).format(controller.data.assets!.firstBookDate!),
                       ),
                       DetailList(

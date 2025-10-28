@@ -21,6 +21,7 @@ abstract class Routes {
   static const OUTBOX_ADD = _Paths.OUTBOX_ADD;
   static const BORROW = _Paths.BORROW;
   static const ASSET_HISTORY = _Paths.ASSET_HISTORY;
+  static const BORROW_ADD = _Paths.BORROW_ADD;
 }
 
 abstract class _Paths {
@@ -43,4 +44,5 @@ abstract class _Paths {
   static const OUTBOX_ADD = '/outbox-add';
   static const BORROW = '/borrow';
   static const ASSET_HISTORY = '/asset-history';
+  static const BORROW_ADD = '/borrow-add';
 }

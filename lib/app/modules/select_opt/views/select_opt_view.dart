@@ -42,7 +42,12 @@ class SelectOptView extends GetView<SelectOptController> {
               ...controller.data.map((v) {
                 return GestureDetector(
                   onTap: () => controller.handleBackButton(v),
-                  child: ListTile(title: Text(v.name!, style: textSemiBold)),
+                  child: ListTile(
+                    title: Text(v.name!, style: textSemiBold),
+                    subtitle: v.code == null
+                        ? const SizedBox()
+                        : Text("${v.code}", style: textRegular),
+                  ),
                 );
               }),
             ],

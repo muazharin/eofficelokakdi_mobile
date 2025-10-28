@@ -108,7 +108,12 @@ class AssetController extends GetxController
     try {
       final response = await Api().getWithToken(
         path: AppVariable.asset,
-        queryParameters: {"search": searchController.text, "page": page},
+        queryParameters: {
+          "bmn_id": selectedBmn.id,
+          "stuff_id": selectedStuff.id,
+          "search": searchController.text,
+          "page": page,
+        },
       );
       var result = jsonDecode(response.toString());
       if (result['status']) {

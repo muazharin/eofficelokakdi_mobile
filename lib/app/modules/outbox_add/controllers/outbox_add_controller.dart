@@ -62,7 +62,7 @@ class OutboxAddController extends GetxController
   }
 
   void handleSelectDate(DateTime v) {
-    outboxDate.text = DateFormat("dd MMMM yyyy").format(v);
+    outboxDate.text = DateFormat("dd MMMM yyyy", "id").format(v);
     outboxDateFormat = v;
     update();
   }

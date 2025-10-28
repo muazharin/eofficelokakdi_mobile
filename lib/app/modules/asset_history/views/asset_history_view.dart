@@ -1,5 +1,4 @@
 import 'package:eoffice/app/data/themes/typography.dart';
-import 'package:eoffice/app/data/widgets/detail_list.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -57,7 +56,8 @@ class AssetHistoryView extends GetView<AssetHistoryController> {
                         return ExpansionTile(
                           title: Text(
                             DateFormat(
-                              "dd-MM-yyyy",
+                              "dd MMMM yyyy",
+                              "id",
                             ).format(v.value.assetHistoryDate!),
                             style: textRegular,
                           ),

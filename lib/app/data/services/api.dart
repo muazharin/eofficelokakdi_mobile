@@ -114,6 +114,8 @@ class Api {
     String? path,
     Map<String, dynamic>? queryParameters,
   }) async {
+    print(path);
+    print(queryParameters);
     var token = await box.getData("token");
     try {
       final response = await dio.get(

@@ -14,6 +14,8 @@ import '../modules/asset_history/bindings/asset_history_binding.dart';
 import '../modules/asset_history/views/asset_history_view.dart';
 import '../modules/borrow/bindings/borrow_binding.dart';
 import '../modules/borrow/views/borrow_view.dart';
+import '../modules/borrow_add/bindings/borrow_add_binding.dart';
+import '../modules/borrow_add/views/borrow_add_view.dart';
 import '../modules/download_file/bindings/download_file_binding.dart';
 import '../modules/download_file/views/download_file_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -138,6 +140,11 @@ class AppPages {
       name: _Paths.ASSET_HISTORY,
       page: () => const AssetHistoryView(),
       binding: AssetHistoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.BORROW_ADD,
+      page: () => const BorrowAddView(),
+      binding: BorrowAddBinding(),
     ),
   ];
 }

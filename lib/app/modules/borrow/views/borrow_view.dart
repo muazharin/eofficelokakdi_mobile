@@ -1,3 +1,4 @@
+import 'package:eoffice/app/data/themes/typography.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,18 +10,24 @@ class BorrowView extends GetView<BorrowController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Export to PDF')),
-      body: GetBuilder<BorrowController>(
-        builder: (context) {
-          return Column(
-            children: [
-              ElevatedButton(
-                onPressed: () => controller.onSubmit(),
-                child: Text('Export to PDF'),
-              ),
-            ],
-          );
-        },
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
+        title: Text('Peminjaman', style: textSemiBold.copyWith(fontSize: 20)),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading: InkWell(
+          onTap: () => Get.back(),
+          child: Icon(Icons.arrow_back_ios_new_rounded),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        onPressed: () => controller.handleAdd(),
+        child: Icon(Icons.add),
       ),
     );
   }

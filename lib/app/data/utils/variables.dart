@@ -3,6 +3,7 @@ class AppVariable {
   static String serialNo = "/api/v1/outbox/serial_no";
   static String signin = "/api/v1/auth/signin";
   static String user = "/api/v1/user";
+  static String userAll = "/api/v1/user/all";
   static String userPhoto = "/api/v1/user/update_photo";
   static String userPassword = "/api/v1/user/update_password";
   static String asset = "/api/v1/asset";

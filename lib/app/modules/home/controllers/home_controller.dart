@@ -8,7 +8,7 @@ import 'package:eoffice/app/data/services/api.dart';
 import 'package:eoffice/app/data/services/secure_storage.dart';
 import 'package:eoffice/app/data/utils/variables.dart';
 import 'package:eoffice/app/data/widgets/pop_up_option.dart';
-import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
+// import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:get/get.dart';
@@ -56,45 +56,45 @@ class HomeController extends GetxController {
       ),
       MenuModel(
         id: 6,
-        name: "Peminjaman Asset",
+        name: "Peminjaman",
         icon: "assets/png/ballot.png",
         bgColor: Color(0xffefbbff),
         txColor: Color(0xffbe29ec),
         onTap: () => Get.toNamed(Routes.BORROW),
       ),
-      MenuModel(
-        id: 2,
-        name: "Surat Masuk",
-        icon: "assets/png/envelope-download.png",
-        bgColor: Color(0xffe9f6fe),
-        txColor: Color(0xff1d9fff),
-        onTap: () => snackbarWarning(message: "Sedang proses development"),
-      ),
-      MenuModel(
-        id: 3,
-        name: "Surat Keluar",
-        icon: "assets/png/envelope-upload.png",
-        bgColor: Color(0xfff1fadd),
-        txColor: Color(0xffa5df29),
-        // onTap: () => Get.toNamed(Routes.OUTBOX),
-        onTap: () => snackbarWarning(message: "Sedang proses development"),
-      ),
-      MenuModel(
-        id: 4,
-        name: "SPT",
-        icon: "assets/png/document-signed.png",
-        bgColor: Color(0xfffdeef5),
-        txColor: Color(0xfffb2e95),
-        onTap: () => snackbarWarning(message: "Sedang proses development"),
-      ),
-      MenuModel(
-        id: 5,
-        name: "Agenda",
-        icon: "assets/png/calendar.png",
-        bgColor: Color(0xfffdedf0),
-        txColor: Color(0xfffd3661),
-        onTap: () => snackbarWarning(message: "Sedang proses development"),
-      ),
+      // MenuModel(
+      //   id: 2,
+      //   name: "Surat Masuk",
+      //   icon: "assets/png/envelope-download.png",
+      //   bgColor: Color(0xffe9f6fe),
+      //   txColor: Color(0xff1d9fff),
+      //   onTap: () => snackbarWarning(message: "Sedang proses development"),
+      // ),
+      // MenuModel(
+      //   id: 3,
+      //   name: "Surat Keluar",
+      //   icon: "assets/png/envelope-upload.png",
+      //   bgColor: Color(0xfff1fadd),
+      //   txColor: Color(0xffa5df29),
+      //   // onTap: () => Get.toNamed(Routes.OUTBOX),
+      //   onTap: () => snackbarWarning(message: "Sedang proses development"),
+      // ),
+      // MenuModel(
+      //   id: 4,
+      //   name: "SPT",
+      //   icon: "assets/png/document-signed.png",
+      //   bgColor: Color(0xfffdeef5),
+      //   txColor: Color(0xfffb2e95),
+      //   onTap: () => snackbarWarning(message: "Sedang proses development"),
+      // ),
+      // MenuModel(
+      //   id: 5,
+      //   name: "Agenda",
+      //   icon: "assets/png/calendar.png",
+      //   bgColor: Color(0xfffdedf0),
+      //   txColor: Color(0xfffd3661),
+      //   onTap: () => snackbarWarning(message: "Sedang proses development"),
+      // ),
     ];
     update();
     getDataUser();

@@ -1,6 +1,9 @@
 class UserModel {
   int? userId;
   int? userNip;
+  String? userLevel;
+  String? userGol;
+  String? userPosition;
   String? userName;
   String? userEmail;
   String? userPhone;
@@ -13,6 +16,9 @@ class UserModel {
   UserModel({
     this.userId,
     this.userNip,
+    this.userLevel,
+    this.userGol,
+    this.userPosition,
     this.userName,
     this.userEmail,
     this.userPhone,
@@ -26,6 +32,9 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     userId: json["user_id"],
     userNip: json["user_nip"],
+    userLevel: json["user_level"],
+    userGol: json["user_gol"],
+    userPosition: json["user_position"],
     userName: json["user_name"],
     userEmail: json["user_email"],
     userPhone: json["user_phone"],
@@ -41,6 +50,9 @@ class UserModel {
   Map<String, dynamic> toJson() => {
     "user_id": userId,
     "user_nip": userNip,
+    "user_level": userLevel,
+    "user_gol": userGol,
+    "user_position": userPosition,
     "user_name": userName,
     "user_email": userEmail,
     "user_phone": userPhone,

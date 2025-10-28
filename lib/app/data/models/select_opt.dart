@@ -1,10 +1,17 @@
 class SelectOptModel {
   int? id;
   dynamic code;
+  String? policeNo;
   String? name;
   bool? isSelected;
 
-  SelectOptModel({this.id, this.code, this.name, this.isSelected});
+  SelectOptModel({
+    this.id,
+    this.code,
+    this.policeNo,
+    this.name,
+    this.isSelected,
+  });
 
   factory SelectOptModel.fromJson(Map<String, dynamic> json) => SelectOptModel(
     id:
@@ -17,8 +24,11 @@ class SelectOptModel {
         json["location_id"] ??
         json["condition_id"] ??
         json["usage_id"] ??
+        json["asset_id"] ??
+        json["user_id"] ??
         0,
-    code: json["stuff_code"] ?? '',
+    code: json["stuff_code"] ?? json["nup"] ?? '',
+    policeNo: json["police_no"] ?? '',
     name:
         json["stuff_name"] ??
         json["bmn_name"] ??
@@ -29,6 +39,8 @@ class SelectOptModel {
         json["location_name"] ??
         json["condition_name"] ??
         json["usage_name"] ??
+        json["merk"] ??
+        json["user_name"] ??
         '',
     isSelected: json["is_selected"] ?? false,
   );
@@ -36,6 +48,7 @@ class SelectOptModel {
   Map<String, dynamic> toJson() => {
     "id": id,
     "code": code,
+    "police_no": policeNo,
     "name": name,
     "is_selected": isSelected,
   };
