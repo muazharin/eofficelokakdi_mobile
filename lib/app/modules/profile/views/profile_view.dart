@@ -173,6 +173,7 @@ class ProfileView extends GetView<ProfileController> {
                             Text(
                               DateFormat(
                                 "dd MMM yyyy",
+                                "id",
                               ).format(controller.data.userTglLahir!),
                               style: textRegular,
                             ),

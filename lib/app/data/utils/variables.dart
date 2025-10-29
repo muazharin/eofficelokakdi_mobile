@@ -13,6 +13,7 @@ class AppVariable {
   static String assetUploadImg = "/api/v1/asset/update_image";
   static String assetShowNote = "/api/v1/asset/update_show_note";
   static String assetHistory = "/api/v1/asset/history";
+  static String loan = "/api/v1/loan";
   static String bmn = "/api/v1/asset/bmns";
   static String stuff = "/api/v1/asset/stuffs";
   static String condition = "/api/v1/asset/conditions";

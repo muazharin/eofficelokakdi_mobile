@@ -1,14 +1,20 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:eoffice/app/data/models/menu.dart';
 import 'package:eoffice/app/data/models/select_opt.dart';
+import 'package:eoffice/app/data/services/api.dart';
 import 'package:eoffice/app/data/services/secure_storage.dart';
 import 'package:eoffice/app/data/services/service.dart';
+import 'package:eoffice/app/data/utils/variables.dart';
+import 'package:eoffice/app/data/widgets/loading_custom.dart';
 import 'package:eoffice/app/data/widgets/option_bottom.dart';
+import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,6 +25,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class BorrowAddController extends GetxController {
   var box = SecureStorageService();
+  var key = GlobalKey<FormState>();
   var userData = <String, dynamic>{};
   var eventName = TextEditingController();
   var eventPlace = TextEditingController();
@@ -41,10 +48,46 @@ class BorrowAddController extends GetxController {
 
   @override
   void onInit() async {
-    addAnggota();
+    // addAnggota();
     userData = JwtDecoder.decode((await box.getData("token"))!);
     update();
+    setDummy();
     super.onInit();
+  }
+
+  void setDummy() {
+    eventName.text =
+        "Sosialisasi Frekuensi & Sertifikasi Perangkat Telekomunikasi";
+    eventPlace.text = "Kendari";
+    eventDateStart.text = "29-10-2025";
+    eventDateStartFormat = DateTime.now();
+    eventDateFinish.text = "30-10-2025";
+    eventDateFinishFormat = DateTime(2025, 10, 29);
+    bmnSelect.text = "TOYOTA";
+    bmnSelectModel = SelectOptModel(
+      id: 11,
+      name: "TOYOTA HILUX",
+      policeNo: "DT 9070 E",
+      code: 2,
+    );
+    addAnggota();
+    addAnggota();
+    anggota[0].text = "Nur Rohman Prawiro Utomo, S.T";
+    anggotaModel[0].id = 2;
+    anggotaModel[0].name = "Nur Rohman Prawiro Utomo, S.T";
+    anggota[1].text = "Ardiansyah, S.Kom";
+    anggotaModel[1].id = 5;
+    anggotaModel[1].name = "Ardiansyah, S.Kom";
+    loanDate.text = "29-10-2025";
+    loanDateFormat = DateTime.now();
+    vehicleEquipment.text = "Ban Serep, Kunci Roda, Telescopic, Rak Perangkat";
+    vehicleEquipmentCondition.text = "Lengkap";
+    vehicleCondition.text = "Kendaraan dalam Kondisi Baik";
+    responsibilitySelect.text = "Andi Firdaus, S.Pd";
+    responsibilitySelectModel = SelectOptModel(
+      id: 10,
+      name: "Andi Firdaus, S.Pd",
+    );
   }
 
   void handleSelectDate(DateTime v, String name) {
@@ -125,12 +168,20 @@ class BorrowAddController extends GetxController {
     update();
   }
 
-  void handleSubmit() async {
+  void handleSubmit() {
+    if (key.currentState!.validate()) {
+      doSubmit();
+    }
+  }
+
+  void doSubmit() async {
+    loadingPage(message: "Sedang men-generate dokumen...");
     var pdf = pw.Document();
     var root = await getExternalStorageDirectory();
     var imageKop = (await rootBundle.load(
       "assets/png/kop.png",
     )).buffer.asUint8List();
+    var fuelImg = pw.MemoryImage(fuelImage!.readAsBytesSync());
 
     // Page 1
     pdf.addPage(
@@ -156,6 +207,7 @@ class BorrowAddController extends GetxController {
               pw.Paragraph(
                 text:
                     "\t\t\t\tDalam rangka melaksanakan kegiatan :\n${eventName.text}",
+                style: pw.TextStyle(lineSpacing: 1),
               ),
               pw.Text(
                 "Maka yang bertanda tangan di bawah ini (mewakili tim pelaksana kegiatan):",
@@ -182,6 +234,7 @@ class BorrowAddController extends GetxController {
               pw.Paragraph(
                 text:
                     "Dengan ini mengajukan permohonan peminjaman BMN berupa kendaraan dinas operasional roda empat ${bmnSelectModel.name} ${bmnSelectModel.policeNo}, untuk pelaksanaan kegiatan sesuai dengan yang dimaksud diatas. Adapun anggota tim, waktu dan tempat pelaksanaan kegiatan tersebut sebagai berikut  : ",
+                style: pw.TextStyle(lineSpacing: 1),
               ),
               pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -241,6 +294,7 @@ class BorrowAddController extends GetxController {
               pw.Paragraph(
                 text:
                     "Kami pelaksana kegiatan akan bertanggung jawab atas keamanan dan kondisi BMN kendaraan operasional yang akan digunakan.",
+                style: pw.TextStyle(lineSpacing: 1),
               ),
               pw.SizedBox(height: .5 * PdfPageFormat.cm),
               pw.TableHelper.fromTextArray(
@@ -296,6 +350,7 @@ class BorrowAddController extends GetxController {
               pw.Paragraph(
                 text:
                     "Saya yang bertanda tangan dibawah ini (mewakili tim pelaksana kegiatan sesuai dengan surat permohonan peminjaman kendaraan diatas ) :",
+                style: pw.TextStyle(lineSpacing: 1),
               ),
               pw.TableHelper.fromTextArray(
                 tableWidth: pw.TableWidth.min,
@@ -331,13 +386,34 @@ class BorrowAddController extends GetxController {
                   3: pw.FlexColumnWidth(.15),
                   4: pw.FlexColumnWidth(.15),
                 },
+
                 headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                 headers: [
-                  "Jenis Kendaraan (Merek/Type/ No.Plat)",
-                  "Daftar Kelengkapan Kendaraan",
-                  "Kondisi Kelengkapan Kendaraan",
-                  "Kondisi BBM",
-                  "Kondisi Kendaraan",
+                  pw.Text(
+                    "Jenis Kendaraan (Merek/Type/ No.Plat)",
+                    textAlign: pw.TextAlign.center,
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.Text(
+                    "Daftar Kelengkapan Kendaraan",
+                    textAlign: pw.TextAlign.center,
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.Text(
+                    "Kondisi Kelengkapan Kendaraan",
+                    textAlign: pw.TextAlign.center,
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.Text(
+                    "Kondisi BBM",
+                    textAlign: pw.TextAlign.center,
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.Text(
+                    "Kondisi Kendaraan",
+                    textAlign: pw.TextAlign.center,
+                    style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                  ),
                 ],
                 data: [1]
                     .map(
@@ -345,7 +421,7 @@ class BorrowAddController extends GetxController {
                         "${bmnSelectModel.name}\n${bmnSelectModel.policeNo}",
                         "${vehicleEquipment.text} ",
                         "${vehicleEquipmentCondition.text} ",
-                        "<<photoid1>>",
+                        pw.Image(fuelImg, height: 50, fit: pw.BoxFit.cover),
                         "${vehicleCondition.text} ",
                       ],
                     )
@@ -355,6 +431,7 @@ class BorrowAddController extends GetxController {
               pw.Paragraph(
                 text:
                     "Telah melakukan pengecekan kondisi dan kelengkapan kendaraan sesuai dengan data diatas dan akan menggunakan kendaraan sesuai dengan tugas kedinasan yang diberikan oleh Kepala kantor Loka Monitor Kendari.",
+                style: pw.TextStyle(lineSpacing: 1),
               ),
               pw.SizedBox(height: .5 * PdfPageFormat.cm),
               pw.TableHelper.fromTextArray(
@@ -402,7 +479,54 @@ class BorrowAddController extends GetxController {
     );
 
     var file = File('${root!.path}/test_pdf.pdf');
-    await file.writeAsBytes(await pdf.save());
-    await OpenFile.open(file.path);
+    // await file.writeAsBytes(await pdf.save());
+    // await OpenFile.open(file.path);
+    // var memberOfLoan = anggotaModel.map((v) {
+    //   return {"member_id": v.id, "member_name": v.name};
+    // });
+    var memberOfLoan = <Map<String, dynamic>>[];
+    for (var e in anggotaModel) {
+      memberOfLoan.add({"member_id": e.id, "member_name": e.name});
+    }
+    print("memberOfLoan.length");
+    print(memberOfLoan.length);
+    // var memberOfLoan = anggotaModel.map((v) => v.id!).toList();
+    try {
+      final response = await Api().postWithToken(
+        path: AppVariable.loan,
+        data: FormData.fromMap({
+          "asset_id": bmnSelectModel.id,
+          "applicant_id": userData["user_id"],
+          "responsibility_id": responsibilitySelectModel.id,
+          "event_name": eventName.text,
+          "event_place": eventPlace.text,
+          "event_date_start": DateFormat(
+            "yyyy-MM-dd",
+          ).format(eventDateStartFormat),
+          "event_date_finish": DateFormat(
+            "yyyy-MM-dd",
+          ).format(eventDateFinishFormat),
+          "loan_date": DateFormat("yyyy-MM-dd").format(loanDateFormat),
+          "vehicle_equipment": vehicleEquipment.text,
+          "vehicle_equipment_condition": vehicleEquipmentCondition.text,
+          "vehicle_condition": vehicleCondition.text,
+          "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
+          "doc_file": await MultipartFile.fromFile(file.path),
+          "members": memberOfLoan,
+        }),
+      );
+      var result = jsonDecode(response.toString());
+      if (result['status']) {
+        Get.back();
+        snackbarSuccess(message: "Berhasil menyimpan data");
+      } else {
+        Get.back();
+        snackbarDanger(message: result['message']);
+      }
+    } catch (e) {
+      print(e);
+      Get.back();
+      snackbarDanger(message: e.toString());
+    }
   }
 }
