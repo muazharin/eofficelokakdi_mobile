@@ -43,6 +43,8 @@ dependencies:
   archive: ^4.0.7
   pdf: ^3.11.3
   flutter_localization: ^0.3.3
+  pdfx: ^2.9.2
+  syncfusion_flutter_signaturepad: ^30.2.7
 
 dev_dependencies:
   flutter_test:

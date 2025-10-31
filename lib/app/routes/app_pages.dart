@@ -16,12 +16,16 @@ import '../modules/borrow/bindings/borrow_binding.dart';
 import '../modules/borrow/views/borrow_view.dart';
 import '../modules/borrow_add/bindings/borrow_add_binding.dart';
 import '../modules/borrow_add/views/borrow_add_view.dart';
+import '../modules/borrow_detail/bindings/borrow_detail_binding.dart';
+import '../modules/borrow_detail/views/borrow_detail_view.dart';
 import '../modules/download_file/bindings/download_file_binding.dart';
 import '../modules/download_file/views/download_file_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/open_pdf/bindings/open_pdf_binding.dart';
+import '../modules/open_pdf/views/open_pdf_view.dart';
 import '../modules/outbox/bindings/outbox_binding.dart';
 import '../modules/outbox/views/outbox_view.dart';
 import '../modules/outbox_add/bindings/outbox_add_binding.dart';
@@ -145,6 +149,16 @@ class AppPages {
       name: _Paths.BORROW_ADD,
       page: () => const BorrowAddView(),
       binding: BorrowAddBinding(),
+    ),
+    GetPage(
+      name: _Paths.BORROW_DETAIL,
+      page: () => const BorrowDetailView(),
+      binding: BorrowDetailBinding(),
+    ),
+    GetPage(
+      name: _Paths.OPEN_PDF,
+      page: () => const OpenPdfView(),
+      binding: OpenPdfBinding(),
     ),
   ];
 }

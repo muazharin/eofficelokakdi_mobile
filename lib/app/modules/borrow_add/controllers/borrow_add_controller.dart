@@ -20,7 +20,6 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:open_file/open_file.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 class BorrowAddController extends GetxController {
@@ -182,6 +181,7 @@ class BorrowAddController extends GetxController {
       "assets/png/kop.png",
     )).buffer.asUint8List();
     var fuelImg = pw.MemoryImage(fuelImage!.readAsBytesSync());
+    update();
 
     // Page 1
     pdf.addPage(
@@ -478,19 +478,16 @@ class BorrowAddController extends GetxController {
       ),
     );
 
-    var file = File('${root!.path}/test_pdf.pdf');
-    // await file.writeAsBytes(await pdf.save());
+    var file = File(
+      '${root!.path}/${DateTime.now().microsecondsSinceEpoch}.pdf',
+    );
+    await file.writeAsBytes(await pdf.save());
     // await OpenFile.open(file.path);
-    // var memberOfLoan = anggotaModel.map((v) {
-    //   return {"member_id": v.id, "member_name": v.name};
-    // });
+
     var memberOfLoan = <Map<String, dynamic>>[];
     for (var e in anggotaModel) {
       memberOfLoan.add({"member_id": e.id, "member_name": e.name});
     }
-    print("memberOfLoan.length");
-    print(memberOfLoan.length);
-    // var memberOfLoan = anggotaModel.map((v) => v.id!).toList();
     try {
       final response = await Api().postWithToken(
         path: AppVariable.loan,
@@ -512,19 +509,18 @@ class BorrowAddController extends GetxController {
           "vehicle_condition": vehicleCondition.text,
           "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
           "doc_file": await MultipartFile.fromFile(file.path),
-          "members": memberOfLoan,
+          "members": jsonEncode(memberOfLoan),
         }),
       );
       var result = jsonDecode(response.toString());
       if (result['status']) {
-        Get.back();
+        Get.until((route) => Get.currentRoute == Routes.BORROW);
         snackbarSuccess(message: "Berhasil menyimpan data");
       } else {
         Get.back();
         snackbarDanger(message: result['message']);
       }
     } catch (e) {
-      print(e);
       Get.back();
       snackbarDanger(message: e.toString());
     }

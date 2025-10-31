@@ -48,6 +48,8 @@ class AssetDetailController extends GetxController {
 
   void getData() async {
     isLoading = true;
+    isError = false;
+    error = "";
     update();
     try {
       final response = await Api().getWithToken(
