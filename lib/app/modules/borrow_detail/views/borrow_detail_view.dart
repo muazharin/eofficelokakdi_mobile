@@ -26,6 +26,15 @@ class BorrowDetailView extends GetView<BorrowDetailController> {
           onTap: () => Get.back(),
           child: Icon(Icons.arrow_back_ios_new_rounded),
         ),
+        actions: [
+          InkWell(
+            onTap: () => controller.handleEdit(),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Icon(Icons.edit_note_rounded),
+            ),
+          ),
+        ],
       ),
       body: GetBuilder<BorrowDetailController>(
         builder: (context) {

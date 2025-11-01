@@ -52,4 +52,8 @@ class BorrowDetailController extends GetxController {
   void openDoc(String path) {
     Get.toNamed(Routes.OPEN_PDF, arguments: path);
   }
+
+  void handleEdit() {
+    Get.toNamed(Routes.BORROW_ADD, arguments: {"data": data});
+  }
 }

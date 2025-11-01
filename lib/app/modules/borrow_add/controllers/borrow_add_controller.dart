@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:dio/dio.dart';
+import 'package:eoffice/app/data/models/asset_loan_detail.dart';
 import 'package:eoffice/app/data/models/menu.dart';
 import 'package:eoffice/app/data/models/select_opt.dart';
 import 'package:eoffice/app/data/services/api.dart';
@@ -21,8 +23,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class BorrowAddController extends GetxController {
+  var arg = Get.arguments;
+  var data = AssetLoanDetailModel();
   var box = SecureStorageService();
   var key = GlobalKey<FormState>();
   var userData = <String, dynamic>{};
@@ -43,15 +48,66 @@ class BorrowAddController extends GetxController {
   var vehicleCondition = TextEditingController();
   var responsibilitySelect = TextEditingController();
   var responsibilitySelectModel = SelectOptModel();
+  var signaturePadKey = GlobalKey<SfSignaturePadState>();
+  var isAllowSubmit = false;
+  var isEdit = false;
+  var title = "Ajukan";
+  Uint8List? bytePad;
+  File? imgPad;
   File? fuelImage;
 
   @override
   void onInit() async {
-    // addAnggota();
     userData = JwtDecoder.decode((await box.getData("token"))!);
     update();
-    setDummy();
+    if (arg != null) {
+      handleIsEdit();
+    } else {
+      // setDummy();
+      addAnggota();
+    }
     super.onInit();
+  }
+
+  void handleIsEdit() {
+    isEdit = true;
+    title = "Edit";
+    data = arg["data"] as AssetLoanDetailModel;
+    eventName.text = data.eventName!;
+    eventPlace.text = data.eventPlace!;
+    eventDateStart.text = DateFormat("dd-MM-yyyy").format(data.eventDateStart!);
+    eventDateStartFormat = data.eventDateStart!;
+    eventDateFinish.text = DateFormat(
+      "dd-MM-yyyy",
+    ).format(data.eventDateFinish!);
+    eventDateFinishFormat = data.eventDateFinish!;
+    bmnSelect.text = data.asset!.assetName!;
+    bmnSelectModel = SelectOptModel(
+      id: data.asset!.assetId,
+      name: data.asset!.assetName,
+      policeNo: data.asset!.assetPoliceNo,
+      code: 2,
+    );
+    for (var i = 0; i < data.members!.length; i++) {
+      addAnggota();
+      anggota[i].text = data.members![i].memberName!;
+      anggotaModel[i].id = data.members![i].memberId;
+      anggotaModel[i].name = data.members![i].memberName;
+    }
+    loanDate.text = DateFormat("dd-MM-yyyy").format(data.loanDate!);
+    loanDateFormat = data.loanDate!;
+    vehicleEquipment.text = data.vehicleEquipment!;
+    vehicleEquipmentCondition.text = data.vehicleEquipmentCondition!;
+    vehicleCondition.text = data.vehicleCondition!;
+    responsibilitySelect.text = data.responsibility!.responsibilityName!;
+    responsibilitySelectModel = SelectOptModel(
+      id: data.responsibility!.responsibilityId,
+      name: data.responsibility!.responsibilityName,
+    );
+    AppService().createFileFromUrl(data.fuelImage!).then((f) {
+      fuelImage = f;
+      update();
+    });
   }
 
   void setDummy() {
@@ -164,6 +220,31 @@ class BorrowAddController extends GetxController {
     final image = await ImagePicker().pickImage(source: source);
     if (image == null) return;
     fuelImage = await AppService().compressImage(File(image.path));
+    if (bytePad != null) {
+      isAllowSubmit = true;
+    }
+    update();
+  }
+
+  void clearPad() {
+    signaturePadKey.currentState!.clear();
+    isAllowSubmit = false;
+    update();
+  }
+
+  void onDrawEnd() async {
+    ui.Image img = await signaturePadKey.currentState!.toImage();
+    var byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+    bytePad = byteData!.buffer.asUint8List(
+      byteData.offsetInBytes,
+      byteData.lengthInBytes,
+    );
+    var dir = await getApplicationDocumentsDirectory();
+    imgPad = File("${dir.path}/img_pad.png");
+    await imgPad!.writeAsBytes(bytePad!, flush: true);
+    if (fuelImage != null) {
+      isAllowSubmit = true;
+    }
     update();
   }
 
@@ -311,7 +392,16 @@ class BorrowAddController extends GetxController {
                     "Kendari, ${DateFormat("dd MMMM yyyy", "id").format(loanDateFormat)}",
                   ],
                   ["Kepala Loka Monitor Spektrum", "Pemohon"],
-                  ["Frekuensi Radio Kendari\n\n\n\n\n\n", ""],
+                  [
+                    pw.SizedBox(
+                      height: 90,
+                      child: pw.Text("Frekuensi Radio Kendari "),
+                    ),
+                    pw.SizedBox(
+                      height: 90,
+                      child: pw.Image(pw.MemoryImage(bytePad!), height: 80),
+                    ),
+                  ],
                   ["Boby Satriyo Suleman", "${userData['user_name']}"],
                 ],
               ),
@@ -448,7 +538,13 @@ class BorrowAddController extends GetxController {
                     "Kendari, ${DateFormat('dd MMMM yyyy', 'id').format(loanDateFormat)}",
                   ],
                   ["Penanggung Jawab Kendaraan", "Peminjam Kendaraan"],
-                  ["\n\n\n\n\n", ""],
+                  [
+                    pw.SizedBox(height: 100),
+                    pw.SizedBox(
+                      height: 90,
+                      child: pw.Image(pw.MemoryImage(bytePad!), height: 80),
+                    ),
+                  ],
                   [
                     "${responsibilitySelectModel.name}",
                     "${userData['user_name']}",
@@ -468,7 +564,7 @@ class BorrowAddController extends GetxController {
                   ["", "Mengetahui", ""],
                   ["", "Kepala Loka Monitor Spektrum", ""],
                   ["", "Frekuensi radio Kendari", ""],
-                  ["", "\n\n\n\n\n", ""],
+                  ["", pw.SizedBox(height: 60), ""],
                   ["", "Boby Satriyo Suleman", ""],
                 ],
               ),
@@ -488,41 +584,81 @@ class BorrowAddController extends GetxController {
     for (var e in anggotaModel) {
       memberOfLoan.add({"member_id": e.id, "member_name": e.name});
     }
-    try {
-      final response = await Api().postWithToken(
-        path: AppVariable.loan,
-        data: FormData.fromMap({
-          "asset_id": bmnSelectModel.id,
-          "applicant_id": userData["user_id"],
-          "responsibility_id": responsibilitySelectModel.id,
-          "event_name": eventName.text,
-          "event_place": eventPlace.text,
-          "event_date_start": DateFormat(
-            "yyyy-MM-dd",
-          ).format(eventDateStartFormat),
-          "event_date_finish": DateFormat(
-            "yyyy-MM-dd",
-          ).format(eventDateFinishFormat),
-          "loan_date": DateFormat("yyyy-MM-dd").format(loanDateFormat),
-          "vehicle_equipment": vehicleEquipment.text,
-          "vehicle_equipment_condition": vehicleEquipmentCondition.text,
-          "vehicle_condition": vehicleCondition.text,
-          "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
-          "doc_file": await MultipartFile.fromFile(file.path),
-          "members": jsonEncode(memberOfLoan),
-        }),
-      );
-      var result = jsonDecode(response.toString());
-      if (result['status']) {
-        Get.until((route) => Get.currentRoute == Routes.BORROW);
-        snackbarSuccess(message: "Berhasil menyimpan data");
-      } else {
+    if (isEdit) {
+      try {
+        final response = await Api().putWithToken(
+          path: AppVariable.loan,
+          queryParameters: {"asset_loan_id": data.assetLoanId},
+          data: FormData.fromMap({
+            "asset_id": bmnSelectModel.id,
+            "applicant_id": userData["user_id"],
+            "responsibility_id": responsibilitySelectModel.id,
+            "event_name": eventName.text,
+            "event_place": eventPlace.text,
+            "event_date_start": DateFormat(
+              "yyyy-MM-dd",
+            ).format(eventDateStartFormat),
+            "event_date_finish": DateFormat(
+              "yyyy-MM-dd",
+            ).format(eventDateFinishFormat),
+            "loan_date": DateFormat("yyyy-MM-dd").format(loanDateFormat),
+            "vehicle_equipment": vehicleEquipment.text,
+            "vehicle_equipment_condition": vehicleEquipmentCondition.text,
+            "vehicle_condition": vehicleCondition.text,
+            "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
+            "doc_file": await MultipartFile.fromFile(file.path),
+            "members": jsonEncode(memberOfLoan),
+          }),
+        );
+        var result = jsonDecode(response.toString());
+        if (result['status']) {
+          Get.until((route) => Get.currentRoute == Routes.BORROW);
+          snackbarSuccess(message: "Berhasil menyimpan data");
+        } else {
+          Get.back();
+          snackbarDanger(message: result['message']);
+        }
+      } catch (e) {
         Get.back();
-        snackbarDanger(message: result['message']);
+        snackbarDanger(message: e.toString());
       }
-    } catch (e) {
-      Get.back();
-      snackbarDanger(message: e.toString());
+    } else {
+      try {
+        final response = await Api().postWithToken(
+          path: AppVariable.loan,
+          data: FormData.fromMap({
+            "asset_id": bmnSelectModel.id,
+            "applicant_id": userData["user_id"],
+            "responsibility_id": responsibilitySelectModel.id,
+            "event_name": eventName.text,
+            "event_place": eventPlace.text,
+            "event_date_start": DateFormat(
+              "yyyy-MM-dd",
+            ).format(eventDateStartFormat),
+            "event_date_finish": DateFormat(
+              "yyyy-MM-dd",
+            ).format(eventDateFinishFormat),
+            "loan_date": DateFormat("yyyy-MM-dd").format(loanDateFormat),
+            "vehicle_equipment": vehicleEquipment.text,
+            "vehicle_equipment_condition": vehicleEquipmentCondition.text,
+            "vehicle_condition": vehicleCondition.text,
+            "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
+            "doc_file": await MultipartFile.fromFile(file.path),
+            "members": jsonEncode(memberOfLoan),
+          }),
+        );
+        var result = jsonDecode(response.toString());
+        if (result['status']) {
+          Get.until((route) => Get.currentRoute == Routes.BORROW);
+          snackbarSuccess(message: "Berhasil menyimpan data");
+        } else {
+          Get.back();
+          snackbarDanger(message: result['message']);
+        }
+      } catch (e) {
+        Get.back();
+        snackbarDanger(message: e.toString());
+      }
     }
   }
 }

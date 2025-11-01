@@ -124,21 +124,24 @@ class Applicant {
 
 class Asset {
   int? assetId;
-  String? assetName;
   int? assetNup;
+  String? assetName;
+  String? assetPoliceNo;
 
-  Asset({this.assetId, this.assetName, this.assetNup});
+  Asset({this.assetId, this.assetName, this.assetNup, this.assetPoliceNo});
 
   factory Asset.fromJson(Map<String, dynamic> json) => Asset(
     assetId: json["asset_id"],
     assetName: json["asset_name"],
     assetNup: json["asset_nup"],
+    assetPoliceNo: json["asset_police_no"],
   );
 
   Map<String, dynamic> toJson() => {
     "asset_id": assetId,
     "asset_name": assetName,
     "asset_nup": assetNup,
+    "asset_police_no": assetPoliceNo,
   };
 }
 

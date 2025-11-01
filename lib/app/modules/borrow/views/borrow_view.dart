@@ -61,6 +61,7 @@ class BorrowView extends GetView<BorrowController> {
                   ...controller.data.map((vs) {
                     return Column(
                       children: [
+                        const SizedBox(height: 16),
                         Row(
                           children: [
                             Expanded(child: Divider(color: AppColor.black100)),
@@ -75,7 +76,7 @@ class BorrowView extends GetView<BorrowController> {
                             Expanded(child: Divider(color: AppColor.black100)),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 16),
                         ...vs.riwayat!.map((v) {
                           return GestureDetector(
                             onTap: () =>

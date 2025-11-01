@@ -9,6 +9,7 @@ import 'package:eoffice/app/data/widgets/input_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 import '../controllers/borrow_add_controller.dart';
 
@@ -21,9 +22,13 @@ class BorrowAddView extends GetView<BorrowAddController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0,
-        title: Text(
-          'Ajukan Peminjaman',
-          style: textSemiBold.copyWith(fontSize: 20),
+        title: GetBuilder<BorrowAddController>(
+          builder: (context) {
+            return Text(
+              '${controller.title} Peminjaman',
+              style: textSemiBold.copyWith(fontSize: 20),
+            );
+          },
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -286,10 +291,39 @@ class BorrowAddView extends GetView<BorrowAddController> {
                     validator: (v) => valString!(v, "Penanggung Jawab"),
                   ),
                   const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Tanda Tangan", style: textRegular),
+                      GestureDetector(
+                        onTap: () => controller.clearPad(),
+                        child: Text("Hapus", style: textRegular),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.black200),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: SfSignaturePad(
+                      key: controller.signaturePadKey,
+                      minimumStrokeWidth: 1,
+                      maximumStrokeWidth: 4,
+                      onDrawEnd: () => controller.onDrawEnd(),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   ButtonDefault(
                     text: "Generate",
-                    color: AppColor.blue500,
-                    onTap: () => controller.handleSubmit(),
+                    color: controller.isAllowSubmit
+                        ? AppColor.blue500
+                        : AppColor.black200,
+                    onTap: controller.isAllowSubmit
+                        ? () => controller.handleSubmit()
+                        : () {},
                   ),
                   const SizedBox(height: 16),
                 ],
