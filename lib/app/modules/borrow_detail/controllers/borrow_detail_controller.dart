@@ -4,11 +4,12 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:dio/dio.dart';
+import 'package:eoffice/app/data/models/menu.dart';
 import 'package:eoffice/app/data/services/service.dart';
+import 'package:eoffice/app/data/widgets/option_bottom.dart';
 import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:eoffice/app/data/models/asset_loan_detail.dart';
@@ -22,6 +23,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class BorrowDetailController extends GetxController {
@@ -116,8 +118,24 @@ class BorrowDetailController extends GetxController {
     update();
   }
 
-  void openDoc(String path) {
-    Get.toNamed(Routes.OPEN_PDF, arguments: path);
+  void openDoc(String path) async {
+    var savePath = await AppService().createFileFromUrl(path);
+    showOptionsBottomSheet(
+      menu: [
+        MenuModel(
+          name: "Buka",
+          iconData: Icons.file_open_outlined,
+          onTap: () => Get.toNamed(Routes.OPEN_PDF, arguments: path),
+        ),
+        MenuModel(
+          name: "Kirim",
+          iconData: Icons.share_rounded,
+          onTap: () async => await SharePlus.instance.share(
+            ShareParams(text: "name", files: [XFile(savePath.path)]),
+          ),
+        ),
+      ],
+    );
   }
 
   void handleEdit() {
