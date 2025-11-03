@@ -14,6 +14,7 @@ class AppVariable {
   static String assetShowNote = "/api/v1/asset/update_show_note";
   static String assetHistory = "/api/v1/asset/history";
   static String loan = "/api/v1/loan";
+  static String loanApproval = "/api/v1/loan/approval";
   static String loanDetail = "/api/v1/loan/detail";
   static String bmn = "/api/v1/asset/bmns";
   static String stuff = "/api/v1/asset/stuffs";

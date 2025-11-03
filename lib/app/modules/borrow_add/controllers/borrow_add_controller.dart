@@ -19,6 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -63,8 +64,8 @@ class BorrowAddController extends GetxController {
     if (arg != null) {
       handleIsEdit();
     } else {
-      // setDummy();
-      addAnggota();
+      setDummy();
+      // addAnggota();
     }
     super.onInit();
   }
@@ -391,12 +392,15 @@ class BorrowAddController extends GetxController {
                     "\n\n",
                     "Kendari, ${DateFormat("dd MMMM yyyy", "id").format(loanDateFormat)}",
                   ],
-                  ["Kepala Loka Monitor Spektrum", "Pemohon"],
                   [
-                    pw.SizedBox(
-                      height: 90,
-                      child: pw.Text("Frekuensi Radio Kendari "),
+                    pw.Text(
+                      "Kepala Loka Monitor Spektrum\nFrekuensi Radio Kendari",
+                      textAlign: pw.TextAlign.center,
                     ),
+                    "Pemohon",
+                  ],
+                  [
+                    pw.SizedBox(height: 90),
                     pw.SizedBox(
                       height: 90,
                       child: pw.Image(pw.MemoryImage(bytePad!), height: 80),
@@ -575,7 +579,8 @@ class BorrowAddController extends GetxController {
     );
 
     var file = File(
-      '${root!.path}/${DateTime.now().microsecondsSinceEpoch}.pdf',
+      // '${root!.path}/${DateTime.now().microsecondsSinceEpoch}.pdf',
+      '${root!.path}/peminjaman.pdf',
     );
     await file.writeAsBytes(await pdf.save());
     // await OpenFile.open(file.path);
@@ -607,6 +612,7 @@ class BorrowAddController extends GetxController {
             "vehicle_condition": vehicleCondition.text,
             "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
             "doc_file": await MultipartFile.fromFile(file.path),
+            "applicant_pad": await MultipartFile.fromFile(imgPad!.path),
             "members": jsonEncode(memberOfLoan),
           }),
         );
@@ -644,6 +650,7 @@ class BorrowAddController extends GetxController {
             "vehicle_condition": vehicleCondition.text,
             "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
             "doc_file": await MultipartFile.fromFile(file.path),
+            "applicant_pad": await MultipartFile.fromFile(imgPad!.path),
             "members": jsonEncode(memberOfLoan),
           }),
         );

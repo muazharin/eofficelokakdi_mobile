@@ -3,6 +3,7 @@ class AssetLoanDetailModel {
   Asset? asset;
   Applicant? applicant;
   Responsibility? responsibility;
+  Bos? bos;
   String? eventName;
   String? eventPlace;
   DateTime? eventDateStart;
@@ -13,6 +14,7 @@ class AssetLoanDetailModel {
   String? vehicleCondition;
   String? fuelImage;
   String? docFile;
+  String? isApprove;
   List<Member>? members;
 
   AssetLoanDetailModel({
@@ -20,6 +22,7 @@ class AssetLoanDetailModel {
     this.asset,
     this.applicant,
     this.responsibility,
+    this.bos,
     this.eventName,
     this.eventPlace,
     this.eventDateStart,
@@ -30,6 +33,7 @@ class AssetLoanDetailModel {
     this.vehicleCondition,
     this.fuelImage,
     this.docFile,
+    this.isApprove,
     this.members,
   });
 
@@ -43,6 +47,7 @@ class AssetLoanDetailModel {
         responsibility: json["responsibility"] == null
             ? null
             : Responsibility.fromJson(json["responsibility"]),
+        bos: json["bos"] == null ? null : Bos.fromJson(json["bos"]),
         eventName: json["event_name"],
         eventPlace: json["event_place"],
         eventDateStart: json["event_date_start"] == null
@@ -59,6 +64,7 @@ class AssetLoanDetailModel {
         vehicleCondition: json["vehicle_condition"],
         fuelImage: json["fuel_image"],
         docFile: json["doc_file"],
+        isApprove: json["is_approve"],
         members: json["members"] == null
             ? []
             : List<Member>.from(
@@ -71,6 +77,7 @@ class AssetLoanDetailModel {
     "asset": asset?.toJson(),
     "applicant": applicant?.toJson(),
     "responsibility": responsibility?.toJson(),
+    "bos": bos?.toJson(),
     "event_name": eventName,
     "event_place": eventPlace,
     "event_date_start":
@@ -84,6 +91,7 @@ class AssetLoanDetailModel {
     "vehicle_condition": vehicleCondition,
     "fuel_image": fuelImage,
     "doc_file": docFile,
+    "is_approve": isApprove,
     "members": members == null
         ? []
         : List<dynamic>.from(members!.map((x) => x.toJson())),
@@ -93,32 +101,40 @@ class AssetLoanDetailModel {
 class Applicant {
   int? applicantId;
   String? applicantName;
+  int? applicantNip;
   String? applicantLevel;
   String? applicantPosition;
   String? applicantGol;
+  String? applicantPad;
 
   Applicant({
     this.applicantId,
     this.applicantName,
+    this.applicantNip,
     this.applicantLevel,
     this.applicantPosition,
     this.applicantGol,
+    this.applicantPad,
   });
 
   factory Applicant.fromJson(Map<String, dynamic> json) => Applicant(
     applicantId: json["applicant_id"],
     applicantName: json["applicant_name"],
+    applicantNip: json["applicant_nip"],
     applicantLevel: json["applicant_level"],
     applicantPosition: json["applicant_position"],
     applicantGol: json["applicant_gol"],
+    applicantPad: json["applicant_pad"],
   );
 
   Map<String, dynamic> toJson() => {
     "applicant_id": applicantId,
     "applicant_name": applicantName,
+    "applicant_nip": applicantNip,
     "applicant_level": applicantLevel,
     "applicant_position": applicantPosition,
     "applicant_gol": applicantGol,
+    "applicant_pad": applicantPad,
   };
 }
 
@@ -163,16 +179,50 @@ class Member {
 class Responsibility {
   int? responsibilityId;
   String? responsibilityName;
+  String? responsibilityPad;
+  String? responsibilityApproval;
 
-  Responsibility({this.responsibilityId, this.responsibilityName});
+  Responsibility({
+    this.responsibilityId,
+    this.responsibilityPad,
+    this.responsibilityName,
+    this.responsibilityApproval,
+  });
 
   factory Responsibility.fromJson(Map<String, dynamic> json) => Responsibility(
     responsibilityId: json["responsibility_id"],
     responsibilityName: json["responsibility_name"],
+    responsibilityPad: json["responsibility_pad"],
+    responsibilityApproval: json["responsibility_approval"],
   );
 
   Map<String, dynamic> toJson() => {
     "responsibility_id": responsibilityId,
     "responsibility_name": responsibilityName,
+    "responsibility_pad": responsibilityPad,
+    "responsibility_approval": responsibilityApproval,
+  };
+}
+
+class Bos {
+  int? bosId;
+  String? bosName;
+  String? bosPad;
+  String? bosApproval;
+
+  Bos({this.bosId, this.bosPad, this.bosApproval, this.bosName});
+
+  factory Bos.fromJson(Map<String, dynamic> json) => Bos(
+    bosId: json["bos_id"],
+    bosName: json["bos_name"],
+    bosPad: json["bos_pad"],
+    bosApproval: json["bos_approval"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "bos_id": bosId,
+    "bos_name": bosName,
+    "bos_pad": bosPad,
+    "bos_approval": bosApproval,
   };
 }

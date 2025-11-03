@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eoffice/app/data/themes/colors.dart';
 import 'package:eoffice/app/data/themes/typography.dart';
+import 'package:eoffice/app/data/widgets/button_default.dart';
+import 'package:eoffice/app/data/widgets/button_outlined.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 import '../controllers/borrow_detail_controller.dart';
 
@@ -27,12 +30,19 @@ class BorrowDetailView extends GetView<BorrowDetailController> {
           child: Icon(Icons.arrow_back_ios_new_rounded),
         ),
         actions: [
-          InkWell(
-            onTap: () => controller.handleEdit(),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Icon(Icons.edit_note_rounded),
-            ),
+          GetBuilder<BorrowDetailController>(
+            builder: (context) {
+              if (!controller.isAllowEdit) {
+                return SizedBox();
+              }
+              return InkWell(
+                onTap: () => controller.handleEdit(),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Icon(Icons.edit_note_rounded),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -164,7 +174,7 @@ class BorrowDetailView extends GetView<BorrowDetailController> {
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: AppColor.blue500,
+                            color: AppColor.success500,
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Row(
@@ -197,6 +207,53 @@ class BorrowDetailView extends GetView<BorrowDetailController> {
                     ],
                   ),
                 ),
+                controller.isShowApproval
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Tanda Tangan", style: textRegular),
+                              GestureDetector(
+                                onTap: () => controller.clearPad(),
+                                child: Text("Hapus", style: textRegular),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.black200),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: SfSignaturePad(
+                              key: controller.signaturePadKey,
+                              minimumStrokeWidth: 1,
+                              maximumStrokeWidth: 4,
+                              onDrawEnd: () => controller.onDrawEnd(),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          ButtonDefault(
+                            text: "Izinkan",
+                            color: controller.isAllowSubmit
+                                ? AppColor.blue500
+                                : AppColor.black200,
+                            onTap: () => controller.approval("Approve"),
+                            radius: 12,
+                          ),
+                          const SizedBox(height: 8),
+                          ButtonOutlined(
+                            text: "Batalkan",
+                            borderColor: AppColor.error500,
+                            onTap: () => controller.approval("Decline"),
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
+
                 const SizedBox(height: 16),
               ],
             ),

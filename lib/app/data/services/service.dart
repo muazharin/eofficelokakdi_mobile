@@ -56,4 +56,18 @@ class AppService {
 
     return completer.future;
   }
+
+  Future<Uint8List> createByteFromUrl(String path) async {
+    Uint8List? bytes;
+    try {
+      final url = path;
+      var request = await HttpClient().getUrl(Uri.parse(url));
+      var response = await request.close();
+      bytes = await consolidateHttpClientResponseBytes(response);
+    } catch (e) {
+      throw Exception('Error parsing asset file!');
+    }
+
+    return bytes;
+  }
 }
