@@ -105,7 +105,7 @@ class BorrowDetailView extends GetView<BorrowDetailController> {
                     children: [
                       Text("Kendaraan", style: textSemiBold),
                       Text(
-                        controller.data.asset!.assetName!,
+                        "${controller.data.asset!.assetName!} (${controller.data.asset!.assetPoliceNo})",
                         style: textRegular,
                       ),
                       const SizedBox(height: 8),

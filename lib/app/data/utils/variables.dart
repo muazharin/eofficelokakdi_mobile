@@ -16,6 +16,10 @@ class AppVariable {
   static String loan = "/api/v1/loan";
   static String loanApproval = "/api/v1/loan/approval";
   static String loanDetail = "/api/v1/loan/detail";
+  static String returns = "/api/v1/returns";
+  static String returnsApproval = "/api/v1/returns/approval";
+  static String returnsDetail = "/api/v1/returns/detail";
+  static String returnsMyDataLoan = "/api/v1/returns/my_data_loan";
   static String bmn = "/api/v1/asset/bmns";
   static String stuff = "/api/v1/asset/stuffs";
   static String condition = "/api/v1/asset/conditions";

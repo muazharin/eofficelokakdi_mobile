@@ -24,6 +24,8 @@ abstract class Routes {
   static const BORROW_ADD = _Paths.BORROW_ADD;
   static const BORROW_DETAIL = _Paths.BORROW_DETAIL;
   static const OPEN_PDF = _Paths.OPEN_PDF;
+  static const RETURNS = _Paths.RETURNS;
+  static const RETURNS_ADD = _Paths.RETURNS_ADD;
 }
 
 abstract class _Paths {
@@ -49,4 +51,6 @@ abstract class _Paths {
   static const BORROW_ADD = '/borrow-add';
   static const BORROW_DETAIL = '/borrow-detail';
   static const OPEN_PDF = '/open-pdf';
+  static const RETURNS = '/returns';
+  static const RETURNS_ADD = '/returns-add';
 }

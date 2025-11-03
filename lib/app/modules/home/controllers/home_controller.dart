@@ -62,6 +62,14 @@ class HomeController extends GetxController {
         txColor: Color(0xffbe29ec),
         onTap: () => Get.toNamed(Routes.BORROW),
       ),
+      MenuModel(
+        id: 2,
+        name: "Pengembalian",
+        icon: "assets/png/returns.png",
+        bgColor: Color(0xffe9f6fe),
+        txColor: Color(0xff1d9fff),
+        onTap: () => Get.toNamed(Routes.RETURNS),
+      ),
       // MenuModel(
       //   id: 2,
       //   name: "Surat Masuk",

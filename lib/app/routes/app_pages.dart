@@ -36,6 +36,10 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/profile_edit/bindings/profile_edit_binding.dart';
 import '../modules/profile_edit/views/profile_edit_view.dart';
+import '../modules/returns/bindings/returns_binding.dart';
+import '../modules/returns/views/returns_view.dart';
+import '../modules/returns_add/bindings/returns_add_binding.dart';
+import '../modules/returns_add/views/returns_add_view.dart';
 import '../modules/scanner/bindings/scanner_binding.dart';
 import '../modules/scanner/views/scanner_view.dart';
 import '../modules/select_opt/bindings/select_opt_binding.dart';
@@ -159,6 +163,16 @@ class AppPages {
       name: _Paths.OPEN_PDF,
       page: () => const OpenPdfView(),
       binding: OpenPdfBinding(),
+    ),
+    GetPage(
+      name: _Paths.RETURNS,
+      page: () => const ReturnsView(),
+      binding: ReturnsBinding(),
+    ),
+    GetPage(
+      name: _Paths.RETURNS_ADD,
+      page: () => const ReturnsAddView(),
+      binding: ReturnsAddBinding(),
     ),
   ];
 }
