@@ -26,6 +26,7 @@ abstract class Routes {
   static const OPEN_PDF = _Paths.OPEN_PDF;
   static const RETURNS = _Paths.RETURNS;
   static const RETURNS_ADD = _Paths.RETURNS_ADD;
+  static const RETURN_LOAN_OPT = _Paths.RETURN_LOAN_OPT;
 }
 
 abstract class _Paths {
@@ -53,4 +54,5 @@ abstract class _Paths {
   static const OPEN_PDF = '/open-pdf';
   static const RETURNS = '/returns';
   static const RETURNS_ADD = '/returns-add';
+  static const RETURN_LOAN_OPT = '/return-loan-opt';
 }

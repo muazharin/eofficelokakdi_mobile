@@ -36,6 +36,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/profile_edit/bindings/profile_edit_binding.dart';
 import '../modules/profile_edit/views/profile_edit_view.dart';
+import '../modules/return_loan_opt/bindings/return_loan_opt_binding.dart';
+import '../modules/return_loan_opt/views/return_loan_opt_view.dart';
 import '../modules/returns/bindings/returns_binding.dart';
 import '../modules/returns/views/returns_view.dart';
 import '../modules/returns_add/bindings/returns_add_binding.dart';
@@ -173,6 +175,11 @@ class AppPages {
       name: _Paths.RETURNS_ADD,
       page: () => const ReturnsAddView(),
       binding: ReturnsAddBinding(),
+    ),
+    GetPage(
+      name: _Paths.RETURN_LOAN_OPT,
+      page: () => const ReturnLoanOptView(),
+      binding: ReturnLoanOptBinding(),
     ),
   ];
 }
