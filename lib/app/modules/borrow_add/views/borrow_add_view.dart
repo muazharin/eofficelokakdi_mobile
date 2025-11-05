@@ -317,7 +317,7 @@ class BorrowAddView extends GetView<BorrowAddController> {
                   ),
                   const SizedBox(height: 16),
                   ButtonDefault(
-                    text: "Generate",
+                    text: "Kirim",
                     color: controller.isAllowSubmit
                         ? AppColor.blue500
                         : AppColor.black200,

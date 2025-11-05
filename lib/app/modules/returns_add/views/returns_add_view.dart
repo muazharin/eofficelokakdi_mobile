@@ -2,10 +2,14 @@ import 'package:eoffice/app/data/themes/colors.dart';
 import 'package:eoffice/app/data/themes/typography.dart';
 import 'package:eoffice/app/data/utils/validators.dart';
 import 'package:eoffice/app/data/utils/variables.dart';
+import 'package:eoffice/app/data/widgets/button_default.dart';
+import 'package:eoffice/app/data/widgets/input_date.dart';
 import 'package:eoffice/app/data/widgets/input_select.dart';
+import 'package:eoffice/app/data/widgets/input_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 import '../controllers/returns_add_controller.dart';
 
@@ -53,6 +57,28 @@ class ReturnsAddView extends GetView<ReturnsAddController> {
                     }),
                     controller: controller.loanSelect,
                     validator: (v) => valString!(v, "Peminjaman"),
+                  ),
+                  const SizedBox(height: 8),
+                  Text("Kelengkapan Kendaraan", style: textRegular),
+                  const SizedBox(height: 4),
+                  InputText(
+                    hintText: "Masukkan Kelengkapan Kendaraan",
+                    controller: controller.vehicleEquipment,
+                    minLines: 2,
+                    maxLines: 2,
+                    onChanged: (v) {},
+                    validator: (v) => valString!(v, "Kelengkapan Kendaraan"),
+                  ),
+                  const SizedBox(height: 8),
+                  Text("Kondisi Kelengkapan", style: textRegular),
+                  const SizedBox(height: 4),
+                  InputText(
+                    hintText: "Masukkan Kondisi Kelengkapan",
+                    controller: controller.vehicleEquipmentCondition,
+                    minLines: 2,
+                    maxLines: 2,
+                    onChanged: (v) {},
+                    validator: (v) => valString!(v, "Kondisi Kelengkapan"),
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -117,18 +143,192 @@ class ReturnsAddView extends GetView<ReturnsAddController> {
                       ),
                     ),
                   ),
-                  // const SizedBox(height: 8),
-                  // Text("Pilih Penanggung Jawab", style: textRegular),
-                  // const SizedBox(height: 4),
-                  // InputSelect(
-                  //   hintText: "Pilih Penanggung Jawab",
-                  //   onTap: () => controller.handleSelectOpt({
-                  //     "title": "Pilih Penanggung Jawab",
-                  //     "path": AppVariable.userAll,
-                  //   }),
-                  //   controller: controller.responsibilitySelect,
-                  //   validator: (v) => valString!(v, "Penanggung Jawab"),
-                  // ),
+                  Text("Tgl. Pengembalian", style: textRegular),
+                  const SizedBox(height: 4),
+                  InputDate(
+                    hintText: "Tgl. Pengembalian",
+                    controller: controller.returnDate,
+                    onChanged: (v) {},
+                    onTap: (v) =>
+                        controller.handleSelectDate(v!, "Tgl. Pengembalian", 0),
+                    validator: (v) => valString!(v, "Tgl. Pengembalian"),
+                  ),
+                  const SizedBox(height: 8),
+                  Text("Kondisi Kendaraan", style: textRegular),
+                  const SizedBox(height: 4),
+                  InputText(
+                    hintText: "Masukkan Kondisi Kendaraan",
+                    controller: controller.vehicleCondition,
+                    minLines: 2,
+                    maxLines: 2,
+                    onChanged: (v) {},
+                    validator: (v) => valString!(v, "Kondisi Kendaraan"),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Form Kerusakan Kendaraan", style: textRegular),
+                      InkWell(
+                        child: Icon(Icons.add),
+                        onTap: () => controller.addVehicleDamageForm(),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  controller.vehicleDamageModel.isEmpty
+                      ? Container(
+                          padding: const EdgeInsets.all(12),
+                          margin: const EdgeInsets.only(bottom: 8),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: AppColor.black300),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Tidak ada kerusakan",
+                              style: textRegular.copyWith(
+                                color: AppColor.black300,
+                              ),
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                  ...controller.vehicleDamageModel.asMap().entries.map((data) {
+                    return Container(
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColor.black300),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    InputText(
+                                      hintText: "Masukkan Item",
+                                      controller: controller
+                                          .vehicleDamageItem[data.key],
+                                      onChanged: (v) =>
+                                          controller.onChangedVehicleDamageForm(
+                                            "Item",
+                                            v,
+                                            data.key,
+                                          ),
+                                      validator: (v) => valString!(v, "Item"),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    InputDate(
+                                      hintText: "Waktu Kerusakan",
+                                      controller: controller
+                                          .vehicleDamageTime[data.key],
+                                      onChanged: (v) {},
+                                      isBirthDate: true,
+                                      onTap: (v) => controller.handleSelectDate(
+                                        v!,
+                                        "Waktu Kerusakan",
+                                        data.key,
+                                      ),
+                                      validator: (v) =>
+                                          valString!(v, "Tgl. Peminjaman"),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    InputText(
+                                      hintText: "Masukkan Jenis Kerusakan",
+                                      controller: controller
+                                          .vehicleDamageType[data.key],
+                                      onChanged: (v) =>
+                                          controller.onChangedVehicleDamageForm(
+                                            "Jenis",
+                                            v,
+                                            data.key,
+                                          ),
+                                      validator: (v) =>
+                                          valString!(v, "Jenis Kerusakan"),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    InputText(
+                                      hintText: "Masukkan Keterangan",
+                                      controller: controller
+                                          .vehicleDamageNote[data.key],
+                                      onChanged: (v) =>
+                                          controller.onChangedVehicleDamageForm(
+                                            "Ket",
+                                            v,
+                                            data.key,
+                                          ),
+                                      validator: (v) =>
+                                          valString!(v, "Keterangan"),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              InkWell(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: AppColor.error500,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Icon(
+                                    Icons.remove_rounded,
+                                    color: AppColor.error500,
+                                  ),
+                                ),
+                                onTap: () =>
+                                    controller.removeVehicleDamage(data.key),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                      ),
+                    );
+                  }),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Tanda Tangan", style: textRegular),
+                      GestureDetector(
+                        onTap: () => controller.clearPad(),
+                        child: Text("Hapus", style: textRegular),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColor.black200),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: SfSignaturePad(
+                      key: controller.signaturePadKey,
+                      minimumStrokeWidth: 1,
+                      maximumStrokeWidth: 4,
+                      onDrawEnd: () => controller.onDrawEnd(),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ButtonDefault(
+                    text: "Kirim",
+                    color: controller.isAllowSubmit
+                        ? AppColor.blue500
+                        : AppColor.black200,
+                    onTap: controller.isAllowSubmit
+                        ? () => controller.handleSubmit()
+                        : () {},
+                  ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
