@@ -27,6 +27,7 @@ abstract class Routes {
   static const RETURNS = _Paths.RETURNS;
   static const RETURNS_ADD = _Paths.RETURNS_ADD;
   static const RETURN_LOAN_OPT = _Paths.RETURN_LOAN_OPT;
+  static const RETURNS_DETAIL = _Paths.RETURNS_DETAIL;
 }
 
 abstract class _Paths {
@@ -55,4 +56,5 @@ abstract class _Paths {
   static const RETURNS = '/returns';
   static const RETURNS_ADD = '/returns-add';
   static const RETURN_LOAN_OPT = '/return-loan-opt';
+  static const RETURNS_DETAIL = '/returns-detail';
 }
