@@ -1,4 +1,3 @@
-import 'package:eoffice/app/data/models/asset_loan_detail.dart';
 import 'package:eoffice/app/data/themes/colors.dart';
 import 'package:eoffice/app/data/themes/typography.dart';
 import 'package:flutter/material.dart';

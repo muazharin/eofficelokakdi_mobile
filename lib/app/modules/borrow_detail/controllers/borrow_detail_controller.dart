@@ -87,8 +87,6 @@ class BorrowDetailController extends GetxController {
     if (data.responsibility!.responsibilityId! ==
         int.parse(userData['user_id'])) {
       isShowApproval = true;
-      print("data.responsibility!.responsibilityApproval!");
-      print(data);
       if (data.responsibility!.responsibilityApproval! != "-") {
         isShowApproval = false;
       }
