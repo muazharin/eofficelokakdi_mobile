@@ -135,7 +135,7 @@ class ReturnsDetailController extends GetxController {
   }
 
   void handleEdit() {
-    Get.toNamed(Routes.BORROW_ADD, arguments: {"data": data});
+    Get.toNamed(Routes.RETURNS_ADD, arguments: {"data": data});
   }
 
   void clearPad() {

@@ -6,6 +6,7 @@ import 'dart:ui' as ui;
 
 import 'package:dio/dio.dart';
 import 'package:eoffice/app/data/models/asset_loan_detail.dart';
+import 'package:eoffice/app/data/models/asset_return_detail.dart';
 import 'package:eoffice/app/data/models/menu.dart';
 import 'package:eoffice/app/data/models/vehicle_damage.dart';
 import 'package:eoffice/app/data/services/api.dart';
@@ -28,6 +29,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
 class ReturnsAddController extends GetxController {
+  var arg = Get.arguments;
+  var data = AssetReturnDetailModel();
   var title = "Ajukan";
   var key = GlobalKey<FormState>();
   var box = SecureStorageService();
@@ -47,6 +50,7 @@ class ReturnsAddController extends GetxController {
   var vehicleDamageNote = <TextEditingController>[];
   var signaturePadKey = GlobalKey<SfSignaturePadState>();
   var isAllowSubmit = false;
+  var isEdit = false;
   Uint8List? bytePad;
   File? imgPad;
   File? fuelImage;
@@ -55,15 +59,55 @@ class ReturnsAddController extends GetxController {
   void onInit() async {
     userData = JwtDecoder.decode((await box.getData("token"))!);
     update();
-    setDummy();
+    if (arg != null) {
+      handleIsEdit();
+    } else {
+      setDummy();
+    }
     super.onInit();
+  }
+
+  void handleIsEdit() {
+    isEdit = true;
+    title = "Edit";
+    data = arg["data"] as AssetReturnDetailModel;
+    vehicleEquipment.text = data.vehicleEquipment!;
+    vehicleEquipmentCondition.text = data.vehicleEquipmentCondition!;
+    vehicleCondition.text = data.vehicleCondition!;
+    returnDate.text = DateFormat("dd-MM-yyyy").format(data.returnDate!);
+    returnDateFormat = data.returnDate!;
+    loanSelect.text = data.asset!.assetName!;
+    loanSelectModel = AssetLoanDetailModel(
+      assetLoanId: data.assetLoanId,
+      asset: Asset(
+        assetId: data.asset!.assetId,
+        assetName: data.asset!.assetName,
+        assetNup: data.asset!.assetNup,
+        assetPoliceNo: data.asset!.assetPoliceNo,
+      ),
+      applicant: Applicant(
+        applicantId: data.applicant!.applicantId!,
+        applicantName: data.applicant!.applicantName!,
+        applicantNip: data.applicant!.applicantNip!,
+        applicantLevel: data.applicant!.applicantLevel!,
+        applicantPosition: data.applicant!.applicantPosition!,
+        applicantGol: data.applicant!.applicantGol!,
+        applicantPad: data.applicant!.applicantPad!,
+      ),
+      responsibility: Responsibility(
+        responsibilityId: data.responsibility!.responsibilityId,
+        responsibilityPad: data.responsibility!.responsibilityPad,
+        responsibilityName: data.responsibility!.responsibilityName,
+        responsibilityApproval: data.responsibility!.responsibilityApproval,
+      ),
+    );
   }
 
   void setDummy() {
     vehicleEquipment.text = "Ban Serep, Kunci Roda, Telescopic, Rak Perangkat";
     vehicleEquipmentCondition.text = "Lengkap";
     vehicleCondition.text = "Kendaraan dalam Kondisi Baik";
-    returnDate.text = "05-11-2025";
+    returnDate.text = DateFormat("dd-MM-yyyy").format(DateTime.now());
     returnDateFormat = DateTime.now();
     update();
   }

@@ -63,8 +63,8 @@ class BorrowAddController extends GetxController {
     if (arg != null) {
       handleIsEdit();
     } else {
-      setDummy();
-      // addAnggota();
+      // setDummy();
+      addAnggota();
     }
     super.onInit();
   }

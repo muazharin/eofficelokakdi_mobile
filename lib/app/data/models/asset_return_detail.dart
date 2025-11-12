@@ -85,7 +85,7 @@ class AssetReturnDetailModel {
 class ApplicantReturn {
   int? applicantId;
   String? applicantName;
-  double? applicantNip;
+  int? applicantNip;
   String? applicantLevel;
   String? applicantPosition;
   String? applicantGol;

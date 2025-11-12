@@ -80,7 +80,7 @@ class ReturnsView extends GetView<ReturnsController> {
                         ...vs.riwayat!.map((v) {
                           return GestureDetector(
                             onTap: () =>
-                                controller.handleDetail(v.assetLoanId!),
+                                controller.handleDetail(v.assetReturnId!),
                             child: Container(
                               margin: const EdgeInsets.symmetric(
                                 horizontal: 16,
