@@ -51,7 +51,7 @@ class ReturnsAddView extends GetView<ReturnsAddController> {
                   InputSelect(
                     hintText: "Pilih Peminjaman",
                     onTap: () => controller.handleLoanOpt({
-                      "title": "Pilih Peminjaman",
+                      "title": "Peminjaman",
                       "path":
                           "${AppVariable.returnsMyDataLoan}?user_id=${controller.userData["user_id"]}",
                     }),

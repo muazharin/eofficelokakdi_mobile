@@ -150,7 +150,7 @@ class ReturnsAddController extends GetxController {
   void handleLoanOpt(dynamic arg) {
     Get.toNamed(Routes.RETURN_LOAN_OPT, arguments: arg)!.then((v) {
       if (v != null) {
-        if (arg["title"] == "Pilih Peminjaman") {
+        if (arg["title"] == "Peminjaman") {
           loanSelectModel = v as AssetLoanDetailModel;
           loanSelect.text = loanSelectModel.asset!.assetName!;
         }
@@ -522,35 +522,71 @@ class ReturnsAddController extends GetxController {
       });
     }
 
-    try {
-      final response = await Api().postWithToken(
-        path: AppVariable.returns,
-        data: FormData.fromMap({
-          "asset_loan_id": loanSelectModel.assetLoanId,
-          "asset_id": loanSelectModel.asset!.assetId,
-          "applicant_id": loanSelectModel.applicant!.applicantId,
-          "responsibility_id": loanSelectModel.responsibility!.responsibilityId,
-          "return_date": DateFormat("yyyy-MM-dd").format(returnDateFormat),
-          "vehicle_equipment": vehicleEquipment.text,
-          "vehicle_equipment_condition": vehicleEquipmentCondition.text,
-          "vehicle_condition": vehicleCondition.text,
-          "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
-          "doc_file": await MultipartFile.fromFile(file.path),
-          "applicant_pad": await MultipartFile.fromFile(imgPad!.path),
-          "vehicle_damage": jsonEncode(vehicleDamage),
-        }),
-      );
-      var result = jsonDecode(response.toString());
-      if (result['status']) {
-        Get.until((route) => Get.currentRoute == Routes.RETURNS);
-        snackbarSuccess(message: "Berhasil menyimpan data");
-      } else {
+    if (isEdit) {
+      try {
+        final response = await Api().putWithToken(
+          path: AppVariable.returns,
+          queryParameters: {"asset_return_id": data.assetReturnId},
+          data: FormData.fromMap({
+            "asset_loan_id": loanSelectModel.assetLoanId,
+            "asset_id": loanSelectModel.asset!.assetId,
+            "applicant_id": loanSelectModel.applicant!.applicantId,
+            "responsibility_id":
+                loanSelectModel.responsibility!.responsibilityId,
+            "return_date": DateFormat("yyyy-MM-dd").format(returnDateFormat),
+            "vehicle_equipment": vehicleEquipment.text,
+            "vehicle_equipment_condition": vehicleEquipmentCondition.text,
+            "vehicle_condition": vehicleCondition.text,
+            "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
+            "doc_file": await MultipartFile.fromFile(file.path),
+            "applicant_pad": await MultipartFile.fromFile(imgPad!.path),
+            "vehicle_damage": jsonEncode(vehicleDamage),
+          }),
+        );
+        var result = jsonDecode(response.toString());
+        if (result['status']) {
+          Get.until((route) => Get.currentRoute == Routes.RETURNS);
+          snackbarSuccess(message: "Berhasil menyimpan data");
+        } else {
+          Get.back();
+          snackbarDanger(message: result['message']);
+        }
+      } catch (e) {
         Get.back();
-        snackbarDanger(message: result['message']);
+        snackbarDanger(message: e.toString());
       }
-    } catch (e) {
-      Get.back();
-      snackbarDanger(message: e.toString());
+    } else {
+      try {
+        final response = await Api().postWithToken(
+          path: AppVariable.returns,
+          data: FormData.fromMap({
+            "asset_loan_id": loanSelectModel.assetLoanId,
+            "asset_id": loanSelectModel.asset!.assetId,
+            "applicant_id": loanSelectModel.applicant!.applicantId,
+            "responsibility_id":
+                loanSelectModel.responsibility!.responsibilityId,
+            "return_date": DateFormat("yyyy-MM-dd").format(returnDateFormat),
+            "vehicle_equipment": vehicleEquipment.text,
+            "vehicle_equipment_condition": vehicleEquipmentCondition.text,
+            "vehicle_condition": vehicleCondition.text,
+            "fuel_image": await MultipartFile.fromFile(fuelImage!.path),
+            "doc_file": await MultipartFile.fromFile(file.path),
+            "applicant_pad": await MultipartFile.fromFile(imgPad!.path),
+            "vehicle_damage": jsonEncode(vehicleDamage),
+          }),
+        );
+        var result = jsonDecode(response.toString());
+        if (result['status']) {
+          Get.until((route) => Get.currentRoute == Routes.RETURNS);
+          snackbarSuccess(message: "Berhasil menyimpan data");
+        } else {
+          Get.back();
+          snackbarDanger(message: result['message']);
+        }
+      } catch (e) {
+        Get.back();
+        snackbarDanger(message: e.toString());
+      }
     }
   }
 }

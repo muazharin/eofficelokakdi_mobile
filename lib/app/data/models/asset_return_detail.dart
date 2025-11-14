@@ -105,7 +105,7 @@ class ApplicantReturn {
       ApplicantReturn(
         applicantId: json["applicant_id"],
         applicantName: json["applicant_name"],
-        applicantNip: json["applicant_nip"]?.toDouble(),
+        applicantNip: json["applicant_nip"],
         applicantLevel: json["applicant_level"],
         applicantPosition: json["applicant_position"],
         applicantGol: json["applicant_gol"],

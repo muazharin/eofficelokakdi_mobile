@@ -180,13 +180,13 @@ class AssetView extends GetView<AssetController> {
             childrenButtonSize: Size.fromRadius(32),
             animationCurve: Curves.elasticInOut,
             children: [
-              SpeedDialChild(
-                child: Icon(Icons.add_rounded),
-                onTap: () => controller.handleAddButton(),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-              ),
+              // SpeedDialChild(
+              //   child: Icon(Icons.add_rounded),
+              //   onTap: () => controller.handleAddButton(),
+              //   shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(32),
+              //   ),
+              // ),
               SpeedDialChild(
                 child: Icon(Icons.qr_code_scanner_rounded),
                 onTap: () => controller.handleScanner(),
