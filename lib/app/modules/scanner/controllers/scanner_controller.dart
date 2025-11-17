@@ -1,3 +1,4 @@
+import 'package:eoffice/app/data/widgets/snackbar_custom.dart';
 import 'package:eoffice/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,14 +30,31 @@ class ScannerController extends GetxController {
     v.scannedDataStream.listen((v) {
       parts = v.code!.split("*");
       update();
-      Get.offNamed(
-        Routes.ASSET_DETAIL,
-        arguments: {
-          "satker_code": parts[1],
-          "stuff_id": parts[2],
-          "nup": parts[3],
-        },
-      );
+      switch (parts.length) {
+        case 3:
+          Get.offNamed(
+            Routes.ASSET_DETAIL,
+            arguments: {
+              "satker_code": parts[0],
+              "stuff_id": parts[1],
+              "nup": parts[2],
+            },
+          );
+          break;
+        case 4:
+          Get.offNamed(
+            Routes.ASSET_DETAIL,
+            arguments: {
+              "satker_code": parts[1],
+              "stuff_id": parts[2],
+              "nup": parts[3],
+            },
+          );
+          break;
+        default:
+          Get.back();
+          snackbarWarning(message: "QR Code tidak valid");
+      }
     });
   }
 }

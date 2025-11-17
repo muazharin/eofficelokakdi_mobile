@@ -62,7 +62,7 @@ class ReturnsAddController extends GetxController {
     if (arg != null) {
       handleIsEdit();
     } else {
-      setDummy();
+      // setDummy();
     }
     super.onInit();
   }

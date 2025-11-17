@@ -118,7 +118,7 @@ class ProfileController extends GetxController {
         )['user_id'];
         final response = await Api().putWithToken(
           path: AppVariable.userPassword,
-          data: {"password": password.text},
+          data: {"user_password": password.text},
           queryParameters: {"user_id": userId},
         );
         var result = jsonDecode(response.toString());
